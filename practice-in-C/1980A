@@ -1,0 +1,36 @@
+想法：建立一個 count array 去紀錄出現過的字母數量，再計算每個字母需要多少，相差即可得所求答案
+
+#include<stdio.h>
+ 
+int main(void)
+{
+    int t ;
+    scanf("%d" , &t) ;
+    
+    for(int i = 0 ; i < t ; i++) {
+        int n , m ;
+        scanf("%d%d" , &n , &m) ;
+        
+        int count[7] = {0} ;
+        char string[52] = {0} ;
+        scanf("%s" , string) ;
+        
+        for(int j = 0 ; j < n ; j++)
+            count[ string[j] - 'A' ]++ ;
+        
+        int sum = 0 ;
+        for(int k = 0 ; k < 7 ; k++) {
+            if ( count[k] >= m )
+                continue;
+            else
+                sum += ( m - count[k] ) ;
+                
+        }
+        
+        printf("%d\n" , sum) ;
+        
+    }
+    
+    
+    return 0 ;
+}
