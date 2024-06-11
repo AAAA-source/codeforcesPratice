@@ -1,0 +1,41 @@
+想法：因為時間限制的關係，不可能每次都重做；所以要用dp技巧先記錄
+
+#include<stdio.h>
+
+int digitSum(int n)
+{
+    int count = 0 ;
+    while ( n > 0 ) {
+        count += n % 10 ;
+        n /= 10 ;
+    }
+    
+    
+    return count ;
+}
+
+int main(void)
+{
+    int t ;
+    scanf("%d" , &t ) ;
+    
+    // construct dp table
+    int sum[200005] = {0} ;
+    for(int i = 1 ; i <= 200000 ; i++) {
+        sum[i] = digitSum(i) ;
+    }
+    for(int i = 2 ; i <= 200000 ; i++) {
+        sum[i] += sum[i - 1] ;
+    }
+    
+    
+    
+    while (t--) {
+        int n ;
+        scanf("%d" , &n) ;
+        printf("%d\n" , sum[n]) ;
+        
+    }
+    
+    return 0 ;
+}
