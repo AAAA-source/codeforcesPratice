@@ -1,0 +1,30 @@
+想法：用count計算Ａ的數量，不小於三就是Ａ居多，反之則是Ｂ局多
+
+#include<stdio.h>
+
+int main(void)
+{
+    int t ;
+    scanf("%d" , &t ) ;
+    
+    while (t--) {
+        char s[10] = {0} ;
+        scanf("%s" , s) ;
+        
+        int count = 0 ;
+        for(int i = 0 ; i < 5 ; i++) {
+            if ( s[i] == 'A' )
+                count++ ;
+        }
+        
+        if (count >= 3)
+            printf("A\n") ;
+        else
+            printf("B\n") ;
+        
+    }
+    
+    
+    
+    return 0 ;
+}
