@@ -1,0 +1,46 @@
+想法：紀錄第一個出現的1在哪裡，檢查左右1的個數是否與上下1的個數相等；按照題目需求，相等就會是矩形、否則為三角形
+
+#include<stdio.h>
+
+
+int main(void)
+{
+    int t ;
+    scanf("%d" , &t ) ;
+    
+    while (t--) {
+        char array[10][10] ;
+        int n ;
+        scanf("%d" , &n) ;
+        int row = -1  , column = -1  ;
+        for(int i = 0 ; i < n ; i++) {
+            scanf("%s" , array[i] ) ;
+            for(int j = 0 ; j < n ; j++) {
+                if ( array[i][j] == '1' && row == -1 ) {
+                    row = i ;
+                    column = j ;
+                }
+            }
+        }
+        
+        
+        int len = 0 ;
+        for(int j = column ; j < n ; j++) {
+            if ( array[row][j] == '1' )
+                len++ ;
+        }
+        
+        int count = 0 ;
+        for(int i = row ; i < n ; i++ ) {
+            if ( array[i][column] == '1' )
+                count++ ;
+        }
+        
+        if ( count == len )
+            printf("SQUARE\n") ;
+        else
+            printf("TRIANGLE\n") ;
+        
+    }
+    
+}
