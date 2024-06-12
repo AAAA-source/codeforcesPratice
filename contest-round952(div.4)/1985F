@@ -1,0 +1,89 @@
+想法：這題因為數字的關係很明顯沒辦法全部時間跑一次，而發現答案具有單調性後我就索性使用binary search做
+後來看官解才發現原本題目設計不是這個意思，但很多人跟我一樣用二分搜
+因為對題目數字不太熟悉所以我全部用long long(事實證明這樣是好的，有些人被overflow卡)
+
+
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<stdbool.h>
+ 
+struct node {
+    int attack ;
+    int cooldown ;
+} ;
+typedef struct node Node ;
+ 
+long long int total_attack(Node* total ,long long int n ,long long int time)
+{
+    long long int sum = 0 ;
+    for(int i = 0 ; i < n ; i++) {
+        sum += ( (time / total[i].cooldown) + 1 ) * total[i].attack ;
+    }
+    
+    
+    return sum ;
+}
+ 
+ 
+int main(void)
+{
+    int t ;
+    scanf("%d" , &t ) ;
+    
+    
+    while (t--) {
+        long long int h , n ;
+        scanf("%lld%lld" , &h , &n) ;
+        
+        Node total[n] ;
+        long long int sum = 0 ;
+        
+        for(int i = 0 ; i < n ; i++) {
+            scanf("%d" , &(total[i].attack) ) ;
+            sum += total[i].attack ;
+        }
+        
+        int max_cooldown = 0 ;
+        for(int i = 0 ; i < n ; i++) {
+            scanf("%d" , &(total[i].cooldown) ) ;
+            if ( max_cooldown < total[i].cooldown )
+                max_cooldown = total[i].cooldown ;
+        }
+        
+        if ( sum >= h ) {
+            printf("1\n") ;
+            continue ;
+        }
+        
+        
+        long long int r ;
+        r = ( h / sum ) * max_cooldown + 1 ;
+        long long int l = 1 ;
+        
+        long long int m = r ;
+        while ( l < r ) {
+            m = (l + r) / 2 ;
+            long long int now = total_attack(total, n, m) ;
+            
+            if ( now == h ) {
+                r = m ;
+            }
+            else if ( now < h ) {
+                l = m + 1 ;
+            }
+            else {
+                r = m ;
+            }
+            
+            
+        }
+        
+        
+        
+        printf("%lld\n" , r + 1) ;
+        
+    }
+    
+    return 0 ;
+}
