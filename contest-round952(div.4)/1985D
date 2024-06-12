@@ -1,0 +1,80 @@
+想法：這題我一開始的寫法有點冗長，打算先找出最多#的row , column 再找出中心位置
+但看了官解後發現可以直接紀錄最上最下最左最右的位置就好
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<stdbool.h>
+ 
+int main(void)
+{
+    int t ;
+    scanf("%d" , &t ) ;
+    
+    
+    while (t--) {
+        int n , m ;
+        scanf("%d%d" , &n , &m);
+        
+        char array[n][m] ;
+        for(int i = 0 ; i < n ; i++) {
+            scanf("%s" , array[i]) ;
+        }
+        
+        
+        int x_certain ;
+        int now , max = 0 ;
+        for(int i = 0 ; i < n ; i++) {
+            int count = 0 ;
+            for(int j = 0 ; j < m ; j++) {
+                if ( array[i][j] == '#' ) {
+                    count++ ;
+                    if ( count > max ) {
+                        max = count ;
+                        now = i ;
+                    }
+                }
+            }
+        }
+        //printf("max = %d \n" , max) ;
+        
+        int start , end ;
+        for(int j = 0 ; j < m ; j++) {
+            if ( array[now][j] == '#' && ( j == 0 || array[now][j - 1] == '.' ) )
+                start = j ;
+            
+            if ( array[now][j] == '#' && ( j == m - 1 || array[now][j + 1] == '.' ) )
+                end = j ;
+        }
+        //printf("now = %d \n" , now) ;
+        x_certain = (start + end ) / 2 ;
+        
+        
+        max = 0 ;
+        for(int j = 0 ; j < m ; j++) {
+            int count = 0 ;
+            for(int i = 0 ; i < n ; i++) {
+                if ( array[i][j] == '#' ) {
+                    count++ ;
+                    if ( count > max ) {
+                        max = count ;
+                        now = j ;
+                    }
+                }
+            }
+        }
+        
+        //printf("max = %d \n" , max) ;
+        for(int i = 0 ; i < n ; i++) {
+            if ( array[i][now] == '#' && ( i == 0 || array[i - 1][now] == '.'  ) )
+                start = i ;
+            if ( array[i][now] == '#' && (i == n - 1 || array[i + 1][now] == '.' ) )
+                end = i ;
+        }
+        //printf("now = %d \n" , now) ;
+        int y_certain = (start + end) / 2 ;
+        
+        printf("%d %d\n" , y_certain + 1 , x_certain + 1) ;
+    }
+    
+    return 0 ;
+}
