@@ -1,0 +1,37 @@
+想法：要找出prefix sum = 2*max 的所有可能性，只要看過一次就可以（因為其他元素相加只有可能是最大元素或什麼不都是）
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<stdbool.h>
+ 
+int main(void)
+{
+    int t ;
+    scanf("%d" , &t ) ;
+    
+    
+    while (t--) {
+        int n  ;
+        scanf("%d" , &n) ;
+        
+        int count = 0 ;
+        long long int sum = 0 ;
+        long long int max = -1 ;
+        for(int i = 0 ; i < n ; i++) {
+            long long int temp ;
+            scanf("%lld" , &temp) ;
+            
+            sum += temp ;
+            if ( temp > max )
+                max = temp ;
+            
+            if ( sum == 2 * max )
+                count++ ;
+ 
+        }
+        
+        printf("%d\n" , count) ;
+    }
+    
+    return 0 ;
+}
