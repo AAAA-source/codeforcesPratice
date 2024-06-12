@@ -1,0 +1,25 @@
+想法：要找倍數間間隔最小的數字，一般來說是2，但範測中可發現一個例外（3） 
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<stdbool.h>
+ 
+int main(void)
+{
+    int t ;
+    scanf("%d" , &t ) ;
+    
+    
+    while (t--) {
+        int n ;
+        scanf("%d" , &n) ;
+        
+        if ( n == 3 ) {
+            printf("3\n") ;
+            continue;
+        }
+        
+        printf("2\n") ;
+    }
+    
+    r
