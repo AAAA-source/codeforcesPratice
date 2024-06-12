@@ -1,0 +1,29 @@
+想法：照著做而已
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<stdbool.h>
+ 
+int main(void)
+{
+    int t ;
+    scanf("%d" , &t ) ;
+    
+    
+    while (t--) {
+        char s1[5] = {0} ;
+        char s2[5] = {0} ;
+        scanf("%s" , s1) ;
+        scanf("%s" , s2) ;
+        
+        char temp ;
+        temp = s1[0] ;
+        s1[0] = s2[0] ;
+        s2[0] = temp ;
+        
+        printf("%s %s\n" , s1 , s2) ; 
+        
+    }
+    
+    return 0 ;
+}
