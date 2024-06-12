@@ -1,5 +1,4 @@
-想法：這題我一開始在思考暴力法會不會TLE，但後來就直接先寫寫看；為了快一點捨棄遞迴用迴圈直接寫。
-但這個版本是錯的
+想法：後來我猜測應該是overflow的問題，所以我就把所有變數改成long long 
 
 #include<stdio.h>
 #include<stdlib.h>
@@ -12,25 +11,23 @@ int main(void)
     
     
     while (t--) {
-        int a , b ,c ;
-        scanf("%d%d%d" , &a , &b , &c) ;
+        long long int a , b ,c ;
+        scanf("%lld%lld%lld" , &a , &b , &c) ;
         long long int k ;
         scanf("%lld" , &k) ;
         
         long long int max = 0 ;
         
-        for(int i = 1 ; i <= a ; i++) {
+        for(long long int i = 1 ; i <= a ; i++) {
             if ( k % i == 0 ) {
-                for( int j = 1 ; j <= b ; j++ ) {
+                for(long long int j = 1 ; j <= b ; j++ ) {
                     if ( (k / i) % j == 0 ) {
-                        int l = (k / i) / j ;
+                        long long int l = (k / i) / j ;
                         if ( l <= c ) {
                             long long int count = (a - i + 1) * (b - j + 1) * (c - l +1) ;
                             if ( count > max )
                                 max = count ;
-                            
                         }
-                        
                     }
                 }
             }
