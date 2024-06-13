@@ -1,0 +1,67 @@
+想法：這題是一個排列組合的題目，簡單來說就是要找出每個位數不進位的最大數字，然後是該數字的r次方-該數字的l次方
+但這題在r , l 設計上沒辦法用一般modulo的方法做，要用O(logn)的fast modulo operation，Ｃ裡面沒有所以要自己手刻
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<stdbool.h>
+
+#define mod 1000000007
+
+long long int count[50] ;
+long long int two_power[32] ;
+long long int factor_power(long long int factor , long long int n)
+{
+    long long int sum = 1 ;
+    while ( n > 0 ) {
+        int cursor = 0 ;
+        while ( two_power[cursor] <= n )
+            cursor++ ;
+        cursor-- ;
+        
+        
+        n -= two_power[cursor] ;
+        sum *= count[cursor + 1] ;
+        sum %= mod ;
+    }
+    
+    
+    return sum ;
+}
+
+
+int main(void)
+{
+    int t ;
+    scanf("%d" , &t ) ;
+    
+    two_power[0] = 1 ;
+    for(int i = 1 ; i <= 32 ; i++ ) {
+        two_power[i] = two_power[i - 1] * 2 ;
+    }
+    
+    
+    count[0] = 1 ;
+    while (t--) {
+        long long int l , r , k ;
+        scanf("%lld%lld%lld" , &l , &r , &k) ;
+        
+        long long int factor = 9 / k + 1 ;
+        //printf("factor is %lld \n" , factor) ;
+        
+        count[1] = factor ;
+        for(int i = 2 ; i <= 30 ; i++) {
+            count[i] = count[i - 1] * count[i - 1] ;
+            count[i] %= mod ;
+        }
+        
+        
+        long long int a = factor_power(factor, r) ;
+        long long int b = factor_power(factor, l) ;
+        
+        
+        printf("%lld\n" , (a - b + mod) % mod ) ;
+        
+    }
+    
+    return 0 ;
+}
