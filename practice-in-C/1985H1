@@ -1,0 +1,117 @@
+想法：照著官解思路，用Ｃ刻出DFS，把每個component會影響的row , clumn 都計算一遍
+其中最大連成的新component可以是F + R 的最大值
+Ｆ：原本是'.'的格子數（可新增多少‘＃’）
+Ｒ：原本在附近的component大小
+
+debug:發現有一處n沒有改成m
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<stdbool.h>
+#include<limits.h>
+
+int max_row  , min_row  ;
+int max_column, min_column  ;
+int n , m ;
+
+int dfs(int row , int column , char array[n][m])
+{
+    if ( row >= n || row < 0 || column >= m || column < 0 )
+        return 0 ;
+    if ( array[row][column] == '.'  )
+        return 0 ;
+    
+    if ( row > max_row )
+        max_row = row ;
+    if ( row < min_row )
+        min_row = row ;
+    if ( column > max_column )
+        max_column = column ;
+    if ( column < min_column )
+        min_column = column ;
+    
+    array[row][column] = '.' ;
+    
+    return 1 + dfs(row + 1 , column , array) + dfs( row - 1 , column , array )
+        + dfs(row , column + 1 , array) + dfs( row , column - 1 , array ) ;
+}
+
+
+int main(void)
+{
+    int t ;
+    scanf("%d" , &t ) ;
+    
+    
+    while (t--) {
+        scanf("%d%d" , &n , &m) ;
+        
+        char array[n][m] ;
+        for(int i = 0 ; i < n ; i++)
+            scanf("%s" , array[i]) ;
+        
+        int F_row[n] ;
+        int F_column[m] ;
+        for(int i = 0 ; i < n ; i++) {
+            F_row[i] = 0 ;
+            for(int j = 0 ; j < m ; j++) {
+                if ( array[i][j] == '.' )
+                    F_row[i] ++ ;
+            }
+        }
+        
+        for(int j = 0 ; j < m ; j++ ){
+            F_column[j] = 0 ;
+            for(int i = 0 ; i < n ; i++)
+                if ( array[i][j] == '.' )
+                    F_column[j]++ ;
+        }
+        
+        int R_row[n] ;
+        int R_column[m] ;
+        for(int i = 0 ; i < n ; i++)
+            R_row[i] = 0 ;
+        for(int j = 0 ; j < m ; j++)
+            R_column[j] = 0 ;
+        
+        for(int i = 0 ; i < n ; i++) {
+            for(int j = 0 ; j < m ; j++) {
+                if ( array[i][j] == '#' ) {
+                    max_row = INT_MIN ;
+                    min_row = INT_MAX ;
+                    max_column = INT_MIN ;
+                    min_column = INT_MAX ;
+                    
+                    int size = dfs(i, j, array) ;
+                    int low = (min_row - 1 >= 0)? min_row - 1 : 0 ;
+                    int high = (max_row + 1 < n )? max_row + 1 : n - 1 ;
+                    
+                    for(int l = low ; l <= high ; l++) {
+                        R_row[l] += size ;
+                    }
+                    
+                    low = (min_column - 1 >= 0)? min_column - 1 : 0 ;
+                    high = (max_column + 1 < m )? max_column + 1 : m - 1 ;
+                    
+                    for(int k = low ; k <= high ; k++) {
+                        R_column[k] += size ;
+                    }
+                }
+            }
+        }
+        
+        int max = INT_MIN ;
+        for(int i = 0 ; i < n ; i++) {
+            if ( F_row[i] + R_row[i] > max )
+                max = F_row[i] + R_row[i] ;
+        }
+        for(int j = 0 ; j < m ; j++) {
+            if ( F_column[j] + R_column[j] > max )
+                max = F_column[j] + R_column[j] ;
+        }
+        
+        printf("%d\n" , max) ;
+    }
+    
+    return 0 ;
+}
