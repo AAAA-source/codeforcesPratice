@@ -1,0 +1,137 @@
+想法：一樣照著官解寫，與easy version有幾點不同。
+F[i][j] :十字內有幾個'.'
+B[i][j] :重複算到的compent 有多少（因為row , column 可能會算到同一個component，所以每次找完component都要對內部每個點紀錄走過哪裡）
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<stdbool.h>
+#include<limits.h>
+
+int max_row  , min_row  ;
+int max_column, min_column  ;
+int n , m ;
+
+int dfs(int row , int column , char array[n][m])
+{
+    if ( row >= n || row < 0 || column >= m || column < 0 )
+        return 0 ;
+    if ( array[row][column] == '.'  )
+        return 0 ;
+    
+    if ( row > max_row )
+        max_row = row ;
+    if ( row < min_row )
+        min_row = row ;
+    if ( column > max_column )
+        max_column = column ;
+    if ( column < min_column )
+        min_column = column ;
+    
+    array[row][column] = '.' ;
+    
+    return 1 + dfs(row + 1 , column , array) + dfs( row - 1 , column , array )
+        + dfs(row , column + 1 , array) + dfs( row , column - 1 , array ) ;
+}
+
+
+int main(void)
+{
+    int t ;
+    scanf("%d" , &t ) ;
+    
+    
+    while (t--) {
+        scanf("%d%d" , &n , &m) ;
+        
+        char array[n][m] ;
+        for(int i = 0 ; i < n ; i++)
+            scanf("%s" , array[i]) ;
+        
+        int F_row[n] ;
+        int F_column[m] ;
+        for(int i = 0 ; i < n ; i++) {
+            F_row[i] = 0 ;
+            for(int j = 0 ; j < m ; j++) {
+                if ( array[i][j] == '.' )
+                    F_row[i] ++ ;
+            }
+        }
+        
+        for(int j = 0 ; j < m ; j++ ){
+            F_column[j] = 0 ;
+            for(int i = 0 ; i < n ; i++)
+                if ( array[i][j] == '.' )
+                    F_column[j]++ ;
+        }
+        
+        int F[n][m] ;
+        for(int i = 0 ; i < n ; i++) {
+            for(int j = 0 ; j < m ; j++) {
+                if ( array[i][j] == '.' )
+                    F[i][j] = F_row[i] + F_column[j] - 1 ;
+                else
+                    F[i][j] = F_row[i] + F_column[j] ;
+            }
+        }
+        
+        int R_row[n] ;
+        int R_column[m] ;
+        for(int i = 0 ; i < n ; i++)
+            R_row[i] = 0 ;
+        for(int j = 0 ; j < m ; j++)
+            R_column[j] = 0 ;
+        
+        int B[n][m] ;
+        for(int i = 0 ; i < n ; i++)
+            for(int j = 0 ; j < m ; j++)
+                B[i][j] = 0 ;
+        
+        for(int i = 0 ; i < n ; i++) {
+            for(int j = 0 ; j < m ; j++) {
+                if ( array[i][j] == '#' ) {
+                    max_row = INT_MIN ;
+                    min_row = INT_MAX ;
+                    max_column = INT_MIN ;
+                    min_column = INT_MAX ;
+                    
+                    int size = dfs(i, j, array) ;
+                    int low1 = (min_row - 1 >= 0)? min_row - 1 : 0 ;
+                    int high1 = (max_row + 1 < n )? max_row + 1 : n - 1 ;
+                    
+                    for(int l = low1 ; l <= high1 ; l++) {
+                        R_row[l] += size ;
+                    }
+                    
+                    
+                    
+                    int low2 = (min_column - 1 >= 0)? min_column - 1 : 0 ;
+                    int high2 = (max_column + 1 < m )? max_column + 1 : m - 1 ;
+                    
+                    for(int k = low2 ; k <= high2 ; k++) {
+                        R_column[k] += size ;
+                    }
+                    
+                    for(int l = low1 ; l <= high1 ; l++) {
+                        for(int k = low2 ; k <= high2 ; k++)
+                            B[l][k] += size ;
+                    }
+                    
+                }
+            }
+        }
+        
+        int max = INT_MIN ;
+        for(int i = 0 ; i < n ; i++) {
+            for(int j = 0 ; j < m ; j++) {
+                //printf("%d %d %d %d \n" , F[i][j] , R_row[i] , R_column[j] , B[i][j]) ;
+                if ( F[i][j] + R_row[i] + R_column[j] - B[i][j] > max )
+                    max = F[i][j] + R_row[i] + R_column[j] - B[i][j] ;
+            }
+            
+        }
+        
+        printf("%d\n" , max) ;
+    }
+    
+    return 0 ;
+}
