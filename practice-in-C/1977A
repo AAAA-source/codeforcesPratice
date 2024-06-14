@@ -1,0 +1,28 @@
+想法：在ｎ個動作後留下m個方塊是否可能；當n == m 時一定可以，而一加一減相差二，所以當（n - m） % 2 == 0就可以
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<stdbool.h>
+#include<limits.h>
+
+int main(void)
+{
+    int t ;
+    scanf("%d" , &t ) ;
+    
+    
+    while (t--) {
+        int n , m ;
+        scanf("%d%d" , &n , &m) ;
+        
+        if ( m > n )
+            printf("No\n") ;
+        else if ( (n - m) % 2 == 0 )
+            printf("Yes\n") ;
+        else
+            printf("No\n") ;
+        
+    }
+    
+    return 0 ;
+}
