@@ -1,0 +1,32 @@
+想法：經典找錢問題，題目數字1,5,10,20,100可以適用greedy的做法
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<stdbool.h>
+
+
+int main(void)
+{
+    long long int n ;
+    scanf("%lld" , &n) ;
+    
+    long long int count = 0 ;
+    
+    count += n / 100 ;
+    n %= 100 ;
+    
+    count += n / 20 ;
+    n %= 20 ;
+    
+    count += n / 10 ;
+    n %= 10 ;
+    
+    count += n / 5 ;
+    n %= 5 ;
+    
+    count += n ;
+    
+    printf("%lld\n" , count) ;
+    
+    return 0 ;
+}
