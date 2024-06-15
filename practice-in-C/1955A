@@ -1,0 +1,32 @@
+想法：先判斷 2a 跟 b 的大小，如果b比較小就盡量用b
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<stdbool.h>
+#include<limits.h>
+
+ 
+int main(void)
+{
+    int t ;
+    scanf("%d" , &t ) ;
+    
+    
+    while (t--) {
+        int n , a , b ;
+        scanf("%d%d%d" , &n , &a , &b) ;
+        
+        if ( 2 * a <= b ) {
+            printf("%d\n" , n * a ) ;
+            continue ;
+        }
+        
+        if ( n % 2 == 0 )
+            printf("%d\n" , (n / 2) * b ) ;
+        else
+            printf("%d\n" , (n / 2) * b + a ) ;
+        
+    }
+    
+    return 0 ;
+}
