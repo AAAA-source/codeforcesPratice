@@ -1,0 +1,49 @@
+想法：一開始先用字串陣列把要輸出的格式定好，接下來算出要取哪個陣列並輸出
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<stdbool.h>
+#include<limits.h>
+#include<string.h>
+
+int main(void)
+{
+    int t ;
+    scanf("%d" , &t) ;
+    
+    char hour[12][3] = {{0}} ;
+    strcpy(hour[0], "12") ;
+    strcpy( hour[1] , "01" ) ;
+    strcpy( hour[2] , "02" ) ;
+    strcpy(hour[3], "03") ;
+    strcpy(hour[4], "04") ;
+    strcpy( hour[5] , "05" ) ;
+    strcpy( hour[6] , "06" ) ;
+    strcpy(hour[7], "07") ;
+    strcpy(hour[8], "08") ;
+    strcpy( hour[9] , "09" ) ;
+    strcpy( hour[10] , "10" ) ;
+    strcpy(hour[11], "11") ;
+    
+    
+    while (t--) {
+        char string[10] = {0} ;
+        scanf("%s" , string) ;
+        
+        int count = 0 ;
+        count += (string[0] - '0') * 10 ;
+        count += (string[1] - '0') ;
+        
+        printf("%s%s" , hour[count % 12] , string + 2  ) ;
+        if  ( count >= 12 )
+            printf(" PM\n") ;
+        else
+            printf(" AM\n") ;
+        
+        
+    }
+    
+    
+    
+    return 0 ;
+}
