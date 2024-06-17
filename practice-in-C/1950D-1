@@ -1,0 +1,52 @@
+想法：一開始就想到能使原本不是binary decimal的數字變成是的話只能是因為11 影響，後來發現少了101、111的可能性
+因為數字很小，所以可以直接暴力解就過了
+
+#include<stdio.h>
+#include<string.h>
+#include<stdbool.h>
+
+bool is_binarydecimal(int n)
+{
+    while ( n > 0 ) {
+        int digit = n % 10 ;
+        if ( !( digit == 0 || digit == 1 ) )
+            return false ;
+        
+        n /= 10 ;
+    }
+    
+    return true ;
+}
+
+
+int main(void)
+{
+    int t  ;
+    scanf("%d" , &t);
+    
+    
+    while ( t-- ) {
+        int n ;
+        scanf("%d" , &n) ;
+        
+        while ( !is_binarydecimal(n) && n % 11 == 0 )
+            n /= 11 ;
+        
+        while ( !is_binarydecimal(n) && n % 101 == 0 )
+            n /= 101 ;
+        
+        while ( !is_binarydecimal(n) && n % 111 == 0 )
+            n /= 111 ;
+        
+        
+            
+        if ( !is_binarydecimal(n) )
+            printf("NO\n") ;
+        else
+            printf("YES\n") ;
+        
+    }
+    
+    
+            return 0;
+}
