@@ -1,0 +1,61 @@
+想法：因為要decoding，所以可以先找出r string ，為了快速找到每個字母對英的位置，就將每個字母對應到的位置放在 index array，最後再依序轉換
+
+#include<stdio.h>
+#include<string.h>
+#include<stdbool.h>
+
+
+int scan_letter(char* s , char r[] , int len )
+{
+    bool appear[26] = {0} ;
+    
+    for(int i = 0 ; i < len ; i++) {
+        appear[ s[i] - 'a' ] = true ;
+    }
+    
+    int cursor = 0 ;
+    for(int i = 0 ; i < 26 ; i++) {
+        if ( appear[i] ) {
+            r[cursor] = i + 'a' ;
+            
+            cursor++ ;
+        }
+    }
+    
+    return cursor ;
+}
+
+int main(void) 
+{
+    int t  ;
+    scanf("%d" , &t);
+    
+    
+    while ( t-- ) {
+        int n ;
+        char r[30] = {0} ;
+        
+        scanf("%d" , &n) ;
+        char string[n + 5] ;
+        
+        scanf("%s" , string) ;
+        string[n] = '\0' ;
+        int r_len = scan_letter(string, r, n) ;
+        //printf("r : %s \n" , r ) ;
+        //printf("r_len = %d \n" , r_len) ;
+        
+        int index[26] ;
+        for(int i = 0 ; i < r_len ; i++)
+            index[ r[i] - 'a' ] = i ;
+            
+        for(int i = 0 ; i < n ; i++) {
+            
+            string[i] = r[r_len - 1 - index[string[i] - 'a'] ] ;
+        }
+        
+        printf("%s\n" , string ) ;
+    }
+    
+    
+            return 0;
+}
