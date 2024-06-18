@@ -1,0 +1,39 @@
+想法：此題等於是找出相鄰兩個值的最大值，所有最大值中的最小值再減一
+因此只要每個組合看過一次即可（ O(n) ）
+
+#include<stdio.h>
+#include<string.h>
+#include<stdbool.h>
+#include<limits.h>
+
+
+long long int max_number(long long int a , long long int b)
+{
+    return (a > b)? a : b ;
+}
+
+int main(void)
+{
+    int t  ;
+    scanf("%d" , &t) ;
+    
+    while ( t-- ) {
+        int n ;
+        scanf("%d" , &n) ;
+        
+        long long int array[n] ;
+        for(int i = 0 ; i < n ; i++)
+            scanf("%lld" , &(array[i]) ) ;
+        
+        long long int min = LLONG_MAX ;
+        for(int i = 1 ; i < n ; i++) {
+            if ( min > max_number( array[i - 1] , array[i] ) )
+                min = max_number( array[i - 1] , array[i] ) ;
+        }
+        
+        printf("%lld\n" , min - 1 ) ;
+    }
+    
+    
+            return 0;
+}
