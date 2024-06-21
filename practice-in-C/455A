@@ -1,0 +1,31 @@
+想法：因為看到dp tag，所以直接從dp下手；發現這題實際上有點像階梯問題，所以從小做到大，把最大可能性記錄下來。
+中途有debug是因為我一開始把i = 3 開始往上做，但實際上i = 2 也要更新2以下的最大值
+
+#include<stdio.h>
+#include<string.h>
+
+long long int max(long long int a , long long int b)
+{
+    return ( a > b )? a : b ;
+}
+
+int main(void)
+{
+    int n ;
+    scanf("%d" , &n) ;
+    
+    long long int count[100005] = {0} ;
+    for(int i = 0 ; i < n ; i++) {
+        int temp ;
+        scanf("%d" , &temp ) ;
+        count[ temp ]++ ;
+    }
+    
+    for(int i = 2 ; i <= 100000 ; i++) {
+        count[i] = max( count[i - 1] , count[i - 2] + i * count[i] ) ;
+    }
+    
+    printf("%lld\n" , count[100000]) ;
+    
+    return 0 ;
+}
