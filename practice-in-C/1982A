@@ -1,0 +1,34 @@
+想法：為了不要有任何平局局面，要檢查是否有其中一隊可以一直保持領先直到最後（讓領先那隊先得到所有分數，再看另外一隊會不會追上）
+
+
+
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include<limits.h>
+#include<stdbool.h>
+
+
+int main(void)
+{
+    int t ;
+    scanf("%d" , &t) ;
+    
+    while (t--) {
+        int x1 , y1 ;
+        int x2 , y2 ;
+        scanf("%d%d" , &x1 , &y1) ;
+        scanf("%d%d" , &x2 , &y2) ;
+        
+        if ( (x2 > y2 && x1 > y1) || (y2 > x2 && y1 > x1) ) {
+            printf("YES\n") ;
+        }
+        else
+            printf("NO\n") ;
+        
+        
+    }
+    
+    
+    return 0 ;
+}
