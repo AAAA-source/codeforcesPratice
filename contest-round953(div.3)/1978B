@@ -1,0 +1,39 @@
+想法：一般情形是全部以a價格賣出，如果b>a就找出哪幾個麵包可以賣較高價格，最後相加
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<stdbool.h>
+#include<limits.h>
+#include<string.h>
+ 
+int main(void)
+{
+    int t ;
+    scanf("%d" , &t) ;
+    
+    while (t--) {
+        long long int n , a , b;
+        scanf("%lld%lld%lld" , &n , &a , &b) ;
+        
+        
+        if ( b <= a )
+            printf("%lld\n" , n * a) ;
+        else {
+            long long int d = b - a ;
+            long long int plus = (d + 1) * d / 2 ;
+            if ( d >= n ) {
+                printf("%lld\n" , b * n - (n - 1) * n / 2 ) ;
+            }
+            else {
+                printf("%lld\n" , n * a + plus ) ;
+            }
+        }
+            
+        
+        
+    }
+    
+    
+    
+    return 0 ;
+}
