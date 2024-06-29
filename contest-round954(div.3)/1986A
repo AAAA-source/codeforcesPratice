@@ -1,0 +1,39 @@
+想法：距離最小就是最大座標值與最小座標值之間的差距
+
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include<limits.h>
+
+int compare(const void* a , const void* b)
+{
+    int* A = (int*) a ;
+    int* B = (int*) b ;
+    
+    if (*A > *B)
+        return 1 ;
+    else if ( *A < *B )
+        return -1 ;
+    else
+        return 0 ;
+}
+
+int main(void)
+{
+    int t ;
+    scanf("%d" , &t) ;
+    
+    while (t--) {
+        int a[3] ;
+        scanf("%d%d%d" , &a[0] , &a[1] , &a[2] ) ;
+        
+        qsort(a, 3, sizeof(int), compare) ;
+        
+        printf("%d\n" , a[2] - a[0] ) ;
+        
+        
+    }
+    
+    
+    return 0 ;
+}
