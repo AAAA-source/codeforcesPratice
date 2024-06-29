@@ -1,0 +1,73 @@
+想法：就是照著題目做一遍
+
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include<limits.h>
+
+int compare(const void* a , const void* b)
+{
+    int* A = (int*) a ;
+    int* B = (int*) b ;
+    
+    if (*A > *B)
+        return 1 ;
+    else if ( *A < *B )
+        return -1 ;
+    else
+        return 0 ;
+}
+
+
+int array[100][100] ;
+
+int max_neighbor (int i , int j , int n , int m)
+{
+    int max = 0 ;
+    if ( i > 0 )
+        max = ( array[i - 1][j] > max )? array[i - 1][j] : max ;
+    
+    if ( i < n - 1 )
+        max = ( array[i + 1][j] > max )? array[i + 1][j] : max ;
+    if ( j > 0 )
+        max = ( array[i][j - 1] > max )? array[i][j - 1] : max ;
+    if ( j < m - 1 )
+        max = ( array[i][j + 1] > max )? array[i][j + 1] : max ;
+    
+    return max ;
+}
+
+int main(void)
+{
+    int t ;
+    scanf("%d" , &t) ;
+    
+    while (t--) {
+        int n , m ;
+        scanf("%d%d" , &n , &m) ;
+        
+        for(int i = 0 ; i < n ; i++)
+            for(int j = 0 ; j < m ; j++)
+                scanf("%d" , &(array[i][j]) ) ;
+        
+        
+        for(int i = 0 ; i < n ; i++) {
+            for(int j = 0 ; j < m ; j++) {
+                if (  max_neighbor(i, j, n, m) < array[i][j] )
+                    array[i][j] = max_neighbor(i, j, n, m) ;
+            }
+        }
+        
+        
+        for(int i = 0 ; i < n ; i++) {
+            for(int j = 0 ; j < m ; j++) {
+                printf("%d " , array[i][j]) ;
+            }
+            putchar('\n') ;
+        }
+        
+    }
+    
+    
+    return 0 ;
+}
