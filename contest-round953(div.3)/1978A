@@ -1,0 +1,40 @@
+想法：找最大號碼的一頁跟最後一頁相加
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<stdbool.h>
+#include<limits.h>
+#include<string.h>
+
+int main(void)
+{
+    int t ;
+    scanf("%d" , &t) ;
+    
+    while (t--) {
+        int n ;
+        scanf("%d" , &n) ;
+        
+        long long int max = 0  ;
+        long long int last ;
+        for(int i = 0 ; i < n ; i++) {
+            long long int temp ;
+            scanf("%lld" , &temp) ;
+            
+            if ( i == n - 1) {
+                last = temp ;
+            }
+            else {
+                if ( max < temp )
+                    max = temp ;
+            }
+        }
+        
+        printf("%lld\n" , max + last) ;
+        
+    }
+    
+    
+    
+    return 0 ;
+}
