@@ -1,0 +1,79 @@
+想法：如果兩者喜好程度不同，那一定是投給較喜歡的電影（greedy），所以我們只要看喜好程度相同的部分即可
+而都是0的不需考慮，所以我們要考慮將都是1以及都是-1的分數分給兩者。
+盡量讓兩者相等，所以用多的分數補給少者；扣的分數給多者即可
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<assert.h>
+
+int main(void)
+{
+    int t ;
+    scanf("%d" , &t) ;
+    
+    while (t--) {
+        int n ;
+        scanf("%d" , &n) ;
+        
+        int a[n] ;
+        int b[n] ;
+        
+        for(int i = 0 ; i < n ; i++)
+            scanf("%d" , &(a[i])) ;
+        
+        for(int i = 0 ; i < n ; i++)
+            scanf("%d" , &(b[i])) ;
+        
+        int a_count = 0 ;
+        int b_count = 0 ;
+        
+        int c[2] = {0} ;
+        for(int i = 0 ; i < n ; i++) {
+            if ( a[i] > b[i] ) {
+                a_count += a[i] ;
+            }
+            else if ( b[i] > a[i] ) {
+                b_count += b[i] ;
+            }
+            else {
+                assert( a[i] == b[i] ) ;
+                if ( a[i] == 0 && b[i] == 0 )
+                    continue ;
+                else if ( a[i] == -1 && b[i] == -1 )
+                    c[0]++ ;
+                else
+                    c[1]++ ;
+            }
+        }
+        
+        int min = (a_count < b_count)? a_count : b_count ;
+        int max = (a_count == min)? b_count : a_count ;
+        //printf("%d %d \n" , min , max) ;
+        
+        if ( min + c[1] <= max )
+            min += c[1] ;
+        else {
+            int left = c[1] - max + min ;
+            min = max ;
+            min += left / 2 ;
+            max += (left - left / 2) ;
+        }
+        
+        if ( max - c[0] >= min )
+            max -= c[0] ;
+        else {
+            int left = c[0] + max - min ;
+            max = min ;
+            max -= left / 2 ;
+            min -= (left - left / 2) ;
+            
+        }
+        
+        printf("%d\n" , min ) ;
+    }
+    
+    
+    
+    return 0 ;
+}
