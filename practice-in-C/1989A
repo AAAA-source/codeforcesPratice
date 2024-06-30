@@ -1,0 +1,27 @@
+想法：只要注意y軸位置即可．因為不論x軸數值多大，都可以橫移到該位置。所以只要注意能不能趕上y軸變化
+因為每次y都會往下移一格，所以我們只能抓住y >= -1的所有硬幣
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+int main(void)
+{
+    int t ;
+    scanf("%d" , &t) ;
+    
+    while (t--) {
+        int x , y ;
+        scanf("%d%d" , &x , &y) ;
+        
+        if (y >= -1)
+            printf("YES\n") ;
+        else
+            printf("NO\n") ;
+        
+    }
+    
+    
+    
+    return 0 ;
+}
