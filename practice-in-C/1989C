@@ -2,6 +2,8 @@
 而都是0的不需考慮，所以我們要考慮將都是1以及都是-1的分數分給兩者。
 盡量讓兩者相等，所以用多的分數補給少者；扣的分數給多者即可
 
+二版：原本的有小錯，在於處理扣分的部分。
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
@@ -49,7 +51,6 @@ int main(void)
         
         int min = (a_count < b_count)? a_count : b_count ;
         int max = (a_count == min)? b_count : a_count ;
-        //printf("%d %d \n" , min , max) ;
         
         if ( min + c[1] <= max )
             min += c[1] ;
@@ -63,7 +64,7 @@ int main(void)
         if ( max - c[0] >= min )
             max -= c[0] ;
         else {
-            int left = c[0] + max - min ;
+            int left = c[0] - max + min ;
             max = min ;
             max -= left / 2 ;
             min -= (left - left / 2) ;
@@ -73,6 +74,11 @@ int main(void)
         printf("%d\n" , min ) ;
     }
     
+    
+    
+    return 0 ;
+}
+
     
     
     return 0 ;
