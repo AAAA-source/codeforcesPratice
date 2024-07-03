@@ -1,5 +1,5 @@
 想法：運用greedy思想，只需考慮整除五以及不整除五的情況
-
+二版：使用判斷式使程式更簡潔
 #include<iostream>
 
 int main()
@@ -7,12 +7,7 @@ int main()
     int x ;
     std::cin >> x ;
     
-    if ( x % 5 == 0 )
-        std::cout << x / 5 ;
-    else
-        std::cout << x / 5 + 1 ;
-    
-    
+    std::cout << ((x % 5 == 0)? x / 5 : x / 5 + 1) ;
     
     return 0 ;
 }
