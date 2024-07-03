@@ -1,0 +1,53 @@
+想法：是個明顯的dp問題，如果沒辦法匹配相對長度的話，那麼該位置紀錄的就是需要移除的位置數量，也就是後一個位置需移除的數量加一。
+但如果可以匹配的話，就要選擇後一個移除數量加一以及匹配的尾巴後的位置所需移除的數量之間的較小者
+
+#include<stdio.h>
+#include<stdbool.h>
+#include<limits.h>
+
+long long int min(long long int a , long long int b)
+{
+    return (a < b)? a : b ;
+}
+
+int main(void)
+{
+    int t ;
+    scanf("%d" , &t) ;
+    
+    while (t--) {
+        int n ;
+        scanf("%d" , &n) ;
+        
+        long long int array[n] ;
+        for(int i = 0 ; i < n ; i++)
+            scanf("%lld" , &(array[i])) ;
+        
+        
+        long long int dp[n + 5] ;
+        for(int i = n - 1 ; i >= 0 ; i--) {
+            if ( i + array[i] > n - 1 )
+                dp[i] = -1 ;
+            else {
+                dp[i] = n - 1 - i - array[i] ;
+            }
+        }
+        dp[n] = 0 ;
+        dp[n - 1] = 1 ;
+        for(int i = n - 2 ; i >= 0 ; i--) {
+            if ( dp[i] == -1 ) {
+                dp[i] = dp[i + 1] + 1 ;
+            }
+            else {
+                dp[i] = min( dp[i + 1] + 1 ,  dp[i + array[i] + 1] ) ;
+            }
+        }
+        
+        printf("%lld\n" , dp[0]) ;
+    }
+    
+    
+    
+    
+    return 0 ;
+}
