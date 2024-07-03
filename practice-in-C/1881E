@@ -1,6 +1,10 @@
 想法：是個明顯的dp問題，如果沒辦法匹配相對長度的話，那麼該位置紀錄的就是需要移除的位置數量，也就是後一個位置需移除的數量加一。
 但如果可以匹配的話，就要選擇後一個移除數量加一以及匹配的尾巴後的位置所需移除的數量之間的較小者
 
+二版：消去了取min的過程，因為dp[0]一定是 min 值之一
+
+三版：更為簡化code，把兩個for loop 合起來
+
 #include<stdio.h>
 #include<stdbool.h>
 #include<limits.h>
@@ -25,19 +29,10 @@ int main(void)
         
         
         long long int dp[n + 5] ;
+        dp[n] = 0 ;
         for(int i = n - 1 ; i >= 0 ; i--) {
             if ( i + array[i] > n - 1 )
-                dp[i] = -1 ;
-            else {
-                dp[i] = n - 1 - i - array[i] ;
-            }
-        }
-        dp[n] = 0 ;
-        dp[n - 1] = 1 ;
-        for(int i = n - 2 ; i >= 0 ; i--) {
-            if ( dp[i] == -1 ) {
                 dp[i] = dp[i + 1] + 1 ;
-            }
             else {
                 dp[i] = min( dp[i + 1] + 1 ,  dp[i + array[i] + 1] ) ;
             }
@@ -51,3 +46,4 @@ int main(void)
     
     return 0 ;
 }
+
