@@ -1,0 +1,23 @@
+想法：除了1 GB只需一秒外，其他的最少都需要經過(n - 1) 個cycle ，共(n - 1) * k + 1秒
+
+#include<iostream>
+
+using namespace std ;
+
+int main()
+{
+    int t ;
+    cin >> t ;
+    
+    for(int i = 0 ; i < t ; ++i) {
+        int n , k ;
+        cin >> n >> k ;
+        if ( n == 1 )
+            cout << 1 << endl ;
+        else
+            cout << (n - 1) * k + 1 << endl ;
+    }
+    
+    
+    return 0 ;
+}
