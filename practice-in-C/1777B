@@ -1,0 +1,39 @@
+想法：根據觀察，每個組合至少會有n（n - 1）/2，因為這是前半段對後半段的貢獻；接下來思考前半段怎麼對前半段的作用以及後半段對後半段的作用
+可發現每種組合都會貢獻n(n - 1) ，所以答案為n! * n(n - 1) 
+
+技巧：避免重複計算，先用array把所有數值填好，需要時取用即可
+
+#include<stdio.h>
+#include<string.h>
+#include<limits.h>
+
+#define mod 1000000007
+
+int main(void)
+{
+    int t ;
+    scanf("%d" , &t) ;
+    
+    long long int value[100005] ;
+    value[1] = 1 ;
+    for(int i = 2 ; i <= 100000 ; i++) {
+        value[i] = (i * value[i - 1]) % mod ;
+    }
+    for(int i = 1 ; i <= 100000 ; i++) {
+        value[i] = (value[i] * i) % mod ;
+        value[i] = (value[i] * (i - 1) ) % mod ;
+    }
+    
+    while (t--) {
+        int n ;
+        scanf("%d" , &n) ;
+        
+        printf("%lld\n" , value[n]) ;
+        
+    }
+    
+    
+    
+    
+    return 0 ;
+}
