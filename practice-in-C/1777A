@@ -1,0 +1,37 @@
+想法：因為插入後的數值奇偶性不變，所以只要從第二個元素開始測試是否與前一個奇偶性相同即可
+若不同，視為刪掉前一個．而相乘後的奇偶性與後者相同
+
+debug：一開始把n == 1的情況直接輸出，但發現這樣會漏輸入某些值
+
+#include<stdio.h>
+#include<string.h>
+#include<limits.h>
+
+
+int main(void)
+{
+    int t ;
+    scanf("%d" , &t) ;
+    
+    while (t--) {
+        int n ;
+        scanf("%d" , &n) ;
+        
+        int array[100] = {0} ;
+        for(int i = 0 ; i < n ; i++)
+            scanf("%d" , &(array[i]) ) ;
+        
+        int count = 0 ;
+        for(int i = 1 ; i < n ; i++) {
+            if ( array[i] % 2 == array[i - 1] % 2 )
+                count++ ;
+        }
+        
+        printf("%d\n" , count) ;
+    }
+    
+    
+    
+    
+    return 0 ;
+}
