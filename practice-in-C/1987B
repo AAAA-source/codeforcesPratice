@@ -1,0 +1,42 @@
+想法：把花費分成兩部分，一是總共要更改多少次；二是最多要進行幾輪。所以分別用count, max 紀錄並相加得到答案
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<stdbool.h>
+#include<limits.h>
+
+int main(void)
+{
+    int t ;
+    scanf("%d" , &t) ;
+    
+    while (t--) {
+        int n ;
+        scanf("%d" , &n) ;
+        
+        long long int array[n] ;
+        for(int i = 0 ; i < n ; i++)
+            scanf("%lld" , &(array[i]) ) ;
+        
+        long long int count = 0 ;
+        long long int max = 0 ;
+        for(int i = 1 ; i < n ; i++) {
+            if ( array[i] >= array[i - 1] )
+                continue ;
+            
+            long long int temp = array[i - 1] - array[i] ;
+            if ( temp > max )
+                max = temp ;
+            
+            array[i] += temp ;
+            count += temp ;
+        }
+        
+        printf("%lld\n" , count + max) ;
+    }
+    
+    
+    
+    return 0 ;
+}
