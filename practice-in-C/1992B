@@ -1,0 +1,42 @@
+想法：可把題目視為如何讓最長的片段還原到n，所以只要紀錄哪一個片段最長；以及其他片段還原所需的步數即可
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<stdbool.h>
+#include<limits.h>
+
+
+int main(void)
+{
+    int t ;
+    scanf("%d" , &t) ;
+    
+    while (t--) {
+        int n , k ;
+        scanf("%d%d" , &n , &k) ;
+        
+        int array[k] ;
+        for(int i = 0 ; i < k ; i++)
+            scanf("%d" , &(array[i])) ;
+        
+        int index = 0 ;
+        for(int i = 0 ; i < k ; i++) {
+            if ( array[i] > array[index] )
+                index = i ;
+        }
+        
+        long long int count = 0 ;
+        for(int i = 0 ; i < k ; i++) {
+            if ( i == index )
+                continue ;
+            
+            count += (long long int) 2 * array[i] - 1 ;
+        }
+        printf("%lld\n" , count) ;
+    }
+    
+    
+    
+    return 0 ;
+}
