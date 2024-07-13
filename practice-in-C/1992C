@@ -1,6 +1,8 @@
 想法：創造一個n , n - 1 , ... , k , k - 1 , ... , m + 1 , 1 , 2 , 3 , ... , m 的陣列
 就可以使題目要求的數值最大
 
+二版：直接印出來，不用在array裡修改後印出
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
@@ -16,16 +18,10 @@ int main(void)
         int n , m , k ;
         scanf("%d%d%d" , &n , &m , &k) ;
         
-        int array[n] ;
-        for(int i = 0 ; i < n - k + 1 ; i++)
-            array[i] = n - i ;
-        for(int i = 0 ; i < k - m - 1 ; i++)
-            array[n - k + 1 + i] = k - 1 - i ;
-        for(int i = 0 ; i < m ; i++)
-            array[n - m + i] = i + 1 ;
-            
-        for(int i = 0 ; i < n ; i++)
-            printf("%d " , array[i]) ;
+        for(int i = n ; i >= m + 1 ; i--)
+            printf("%d " , i) ;
+        for(int i = 1 ; i <= m ; i++)
+            printf("%d " , i) ;
         putchar('\n') ;
     }
     
@@ -33,3 +29,4 @@ int main(void)
     
     return 0 ;
 }
+
