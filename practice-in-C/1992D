@@ -1,0 +1,50 @@
+想法：（greedy）此題可以適用greedy的條件，所以只需考慮在陸地時往前跳制最遠的地方，或是下一個有陸地的地方即可
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<stdbool.h>
+#include<limits.h>
+
+int main(void)
+{
+    int t ;
+    scanf("%d" , &t) ;
+    
+    while (t--) {
+        int n , m , k ;
+        scanf("%d%d%d" , &n , &m , &k) ;
+        
+        char string[n + 5] ;
+        scanf("%s" , string) ;
+        string[n] = '\0' ;
+        
+        int cursor = 0 ;
+        while ( k >= 0 && cursor < n + 1 ) {
+            if ( cursor == 0 || string[cursor - 1] == 'L' ) {
+                int next = 1 ;
+                while ( next < m && string[cursor + next - 1] != 'L' )
+                    next++ ;
+                
+                cursor += next ;
+            }
+            else if ( string[cursor - 1] == 'C' ) {
+                k = -1 ;
+            }
+            else {
+                k-- ;
+                cursor++ ;
+            }
+        }
+        
+        if ( k >= 0 )
+            printf("YES\n") ;
+        else
+            printf("NO\n") ;
+        
+    }
+    
+    
+    
+    return 0 ;
+}
