@@ -1,0 +1,69 @@
+想法：此題即為暴力解，跑過所有a可能的值，而相應的b只可能為an-6～an-1
+若an - b == 前a|n| - b 個bit的話，就記為一種答案
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<stdbool.h>
+
+int change_to_string(int n , int string[])
+{
+    int cursor = 0 ;
+    char temp[10] = {0} ;
+    while ( n > 0 ) {
+        temp[cursor] = n % 10 ;
+        n /= 10 ;
+        cursor++ ;
+    }
+    
+    for(int i = 0 ; i < cursor ; i++) {
+        string[i] = temp[ cursor - 1 - i ] ;
+    }
+    
+    return cursor ;
+}
+
+int answer[100000][2] ;
+int main(void)
+{
+    int t ;
+    scanf("%d" , &t) ;
+    
+    while (t--) {
+        int n ;
+        scanf("%d" , &n ) ;
+        
+        int string[10] = {0} ;
+        int len = change_to_string(n, string) ;
+        int now = 0;
+        for(int a = 1 ; a <= 10000 ; a++) {
+            for(int delta = 1 ;a - delta > 0 && delta < 6 ; delta++) {
+                int n_string[10] = {0} ;
+                for(int i = 0 ; i < delta ; i++)
+                    n_string[i] = string[i % len] ;
+                
+                int sum = 0 ;
+                for(int i = 0 ; i < delta ; i++) {
+                    sum *= 10 ;
+                    sum += n_string[i] ;
+                }
+                
+                int value = n * a - (len * a - delta ) ;
+                if ( value == sum ) {
+                    answer[now][0] = a ;
+                    answer[now][1] = len * a - delta ;
+                    now++ ;
+                }
+                
+            }
+        }
+        
+        printf("%d\n" , now) ;
+        for(int i = 0 ; i < now ; i++)
+            printf("%d %d\n" , answer[i][0] , answer[i][1]) ;
+        
+    }
+    
+    
+    
+    return 0 ;
+}
