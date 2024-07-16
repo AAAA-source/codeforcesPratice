@@ -1,0 +1,28 @@
+想法：因為有限制 r >= 2l，所以中間肯定不止有質數的情況；為了找尋最大可能的數，實際上就是找2的次方
+假設今天2^(n+1)大於r，那麼代表n會是答案（就算2^n小於l，也可以將部份2改成其他更大的因數使得其在l~r之間）
+
+#include<iostream>
+
+int main(void)
+{
+    int t ;
+    std::cin >> t ;
+    
+    while (t--) {
+        long long int l , r ;
+        std::cin >> l >> r ;
+        
+        long long int count = 1 ;
+        long long int power = 0 ;
+        
+        while ( count <= r ) {
+            count *= 2 ;
+            power++ ;
+        }
+        
+        std::cout << power - 1 << std::endl ;
+    }
+    
+    
+    return 0 ;
+}
