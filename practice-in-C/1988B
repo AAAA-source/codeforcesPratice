@@ -1,0 +1,47 @@
+想法：先把所有連續的0視為一個零；再紀錄0跟1誰比較多
+因為每次的消除最少都會消去一個1，所以當0不比1少的時候就無法創造都是1的sequence
+
+#include<stdio.h>
+#include<limits.h>
+#include<stdlib.h>
+
+
+
+int main(void)
+{
+    int t ;
+    scanf("%d" , &t) ;
+    
+    while (t--) {
+        int n ;
+        scanf("%d" , &n) ;
+        char sequence[n + 5] ;
+        scanf("%s" , sequence) ;
+        sequence[n] = '\0' ;
+        
+        int count = 0 ;
+        int cursor = 0 ;
+        while ( cursor < n ) {
+            if ( sequence[cursor] == '0' ) {
+                count-- ;
+                while (cursor < n && sequence[cursor] == '0' )
+                    cursor++ ;
+            }
+            else {
+                count++ ;
+                cursor++ ;
+            }
+        }
+        
+        if ( count > 0 )
+            printf("YES\n") ;
+        else
+            printf("NO\n") ;
+        
+        
+    }
+    
+    
+    
+    return 0 ;
+}
