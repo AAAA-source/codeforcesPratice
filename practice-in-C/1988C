@@ -1,0 +1,49 @@
+想法：因為要兩數bit or 後要是n ，所以在n中為0的bit 無法更動；只需考慮1的部分
+為了有最長的序列，每次只把一個1變成0；並由小到大印出，最後一個數則是 n 即可
+
+#include<stdio.h>
+#include<limits.h>
+#include<stdlib.h>
+
+
+
+int main(void)
+{
+    int t ;
+    scanf("%d" , &t) ;
+    
+    while (t--) {
+        long long int n ;
+        scanf("%lld" , &n ) ;
+        
+        
+        
+        int count = 0 ;
+        long long int record[70] ;
+        for(int i = 63 ; i >= 0 ; i--) {
+            if ( (((long long int) 1 << i ) & n) != 0 ) {
+                record[count] = (long long int) 1 << i ;
+                count++ ;
+            }
+        }
+        
+        if ( count == 1 ) {
+            printf("1\n%lld\n" , n) ;
+            continue ;
+        }
+        
+        printf("%d\n" , count + 1 ) ;
+        
+        for(int i = 0 ; i < count ; i++) {
+            printf("%lld " , n - record[i]) ;
+        }
+        printf("%lld\n" , n) ;
+        
+        
+        
+    }
+    
+    
+    
+    return 0 ;
+}
