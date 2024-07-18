@@ -1,0 +1,23 @@
+想法：最多可以分成k份，需將n - 1 全部都轉變成1，而最多每次可以轉k - 1個1 
+只需特別處理整除的情況即可
+
+#include<iostream>
+
+int main(void)
+{
+    int t ;
+    std::cin >> t ;
+    
+    while (t--) {
+        int n , k ;
+        std::cin >> n >> k ;
+        
+        if ( (n - 1) % (k - 1) == 0 )
+            std::cout << (n - 1) / (k - 1) << std::endl ;
+        else
+            std::cout << (n - 1) / (k - 1) + 1 << std::endl ;
+    }
+    
+    
+    return 0 ;
+}
