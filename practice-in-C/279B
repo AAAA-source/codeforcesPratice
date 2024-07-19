@@ -1,0 +1,47 @@
+想法：維護好start ,end cursor就好；而每次都是從該編號開始讀起
+所以只要維護區間內的sum <= t即可
+
+#include<stdio.h>
+#include<stdlib.h>
+
+int main(void)
+{
+    int n , t ;
+    scanf("%d%d" , &n , &t) ;
+    
+    int array[n] ;
+    for(int i = 0 ; i < n ; i++)
+        scanf("%d" , &(array[i])) ;
+    
+    int end[n] ;
+    int cursor = 0 ;
+    
+    int sum = 0;
+    while (cursor < n && sum + array[cursor] <= t ) {
+        sum += array[cursor] ;
+        cursor++ ;
+    }
+    
+    end[0] = cursor - 1 ;
+    for(int i = 1 ; i < n ; i++) {
+        sum -= array[i - 1] ;
+        while (cursor < n && sum + array[cursor] <= t ) {
+            sum += array[cursor] ;
+            cursor++ ;
+        }
+        
+        end[i] = cursor - 1 ;
+    }
+    
+
+    int max = 0 ;
+    for(int i = 0 ; i < n ; i++) {
+        int temp = end[i] - i + 1 ;
+        if ( temp > max )
+            max = temp ;
+    }
+    
+    printf("%d\n" , max) ;
+    
+    return 0 ;
+}
