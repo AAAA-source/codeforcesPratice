@@ -1,0 +1,46 @@
+想法：針對每個 bit 找出距離該 bit 為 1 的數需要多少步
+分為往上找跟往下找（需原本的數大於 1 << i ）
+
+
+#include<stdio.h>
+#include<stdbool.h>
+
+int main(void)
+{
+    long long int two[40] ;
+    two[0] = 1 ;
+    for(int i = 1 ; i <= 32 ; i++)
+        two[i] = two[i - 1] * 2 ;
+    
+    int t ;
+    scanf("%d" , &t) ;
+    while (t--) {
+        long long int n , m ;
+        scanf("%lld%lld" , &n , &m) ;
+        
+        bool flag[32] = {0} ;
+        for(int i = 0 ; i < 32 ; i++) {
+            if ( (((long long int) 1 << i ) & n ) != 0 ) {
+                //printf("this bit is 1\n") ;
+                flag[i] = 1 ;
+                continue ;
+            }
+            
+            long long int now = n % two[i] ;
+            if ( ((n > two[i]) && (m >= now + 1)) ||  (m >= two[i] - now) )
+                flag[i] = 1 ;
+        }
+        
+        long long int sum = 0 ;
+        for(int i = 0 ; i < 32 ; i++) {
+            if (  flag[i] == 1) {
+                //printf("two[%d] = %lld\n" , i , two[i] ) ;
+                sum += two[i] ;
+            }
+        }
+        
+        printf("%lld\n" , sum) ;
+    }
+    
+    return 0 ;
+}
