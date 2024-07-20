@@ -1,0 +1,28 @@
+想法：此題在考奇偶性的問題，所以紀錄奇數、偶數出現次數以及出現位置
+輸出不一樣的那個即可
+
+#include<stdio.h>
+
+int main(void)
+{
+    int n ;
+    scanf("%d" , &n) ;
+    
+    int count[2] = {0} ;
+    int appear[2] = {0} ;
+    for(int i = 1 ; i <= n ; i++) {
+        int temp ;
+        scanf("%d" , &temp) ;
+        
+        count[ temp % 2 ]++ ;
+        appear[ temp % 2 ] = i ;
+    }
+    
+    if ( count[0] == 1 )
+        printf("%d\n" , appear[0] ) ;
+    else
+        printf("%d\n" ,appear[1]) ;
+    
+    
+    return 0 ;
+}
