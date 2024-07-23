@@ -1,0 +1,84 @@
+想法：相同的元素就不用更改，但要確認更改的最後一個元素有在 array b 裡；接著所有不同的元素需要有相同的元素在更改的序列裡面
+原本以C寫成，後來為了std::sort改用C++
+
+fun fact : 我把所有IO改成cin , cout 後慢了大概五倍
+fun fact : std::sorrt中我使用 std::begin , std::end 時出錯但我不知道為什麽
+
+#include<iostream>
+#include<algorithm>
+
+#define MAX_N 200005
+#define MAX_M 200005
+
+int a[MAX_N] , b[MAX_N] ;
+int diff_b[MAX_N] ;
+int operation[MAX_M] ;
+int n , m ;
+bool appear(void)
+{
+    for(int i = 0 ; i < n ; ++i) {
+        if ( b[i] == operation[m - 1] )
+            return true ;
+    }
+    return false ;
+}
+
+int main(void)
+{
+    int t ;
+    std::cin >> t ;
+    while (t--) {
+
+        std::cin >> n ;
+        
+        for(int i = 0 ; i < n ; ++i)
+            std::cin >> a[i] ;
+        
+        for(int i = 0 ; i < n ; ++i)
+            std::cin >> b[i] ;
+        
+
+        std::cin >> m ;
+
+        for(int i = 0 ; i < m ; ++i)
+            std::cin >> operation[i] ;
+        
+        if ( !appear() ) {
+            //printf("the last operation  number not appear in b\n") ;
+            printf("NO\n") ;
+            continue ;
+        }
+        
+        int cursor = 0 ;
+        for(int i = 0 ; i < n ; ++i) {
+            if ( b[i] != a[i] ) {
+                diff_b[cursor] = b[i] ;
+                cursor++ ;
+            }
+        }
+        
+        std::sort(diff_b , diff_b + cursor ) ;
+        std::sort( operation , operation + m ) ;
+        
+        int index = 0 ;
+        bool success = 1 ;
+        for(int i = 0 ;success && i < cursor ; ++i) {
+            //printf("diff_b[%d] = %d\n" , i , diff_b[i]) ;
+            while ( index < m && operation[index] < diff_b[i] )
+                index++ ;
+            //printf("index = %d\n" , index) ;
+            if ( index >= m || operation[index] > diff_b[i] )
+                success = 0 ;
+            index++ ;
+        }
+        
+        if ( success )
+            std::cout << "YES" << std::endl ;
+        else
+            std::cout << "NO" << std::endl ;
+        
+        
+    }
+    
+    return 0 ;
+}
