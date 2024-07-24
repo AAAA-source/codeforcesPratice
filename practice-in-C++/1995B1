@@ -1,0 +1,76 @@
+想法：先將序列排序後，因為最大跟最小值只能差1，而兩種花的排列組合可以用 two cursors的方法檢驗
+所以維護 start , end ,sum 即可
+需注意如果一朵花都沒有的情況，以及end 必須在start以後的規定
+
+fun fact : 如果把所有cin , cout 換成scanf , printf 會快三倍
+
+#include<iostream>
+#include<algorithm>
+
+int main(void)
+{
+    long long int t ;
+    std::cin >> t ;
+    
+    while (t--) {
+        long long int n , m ;
+        std::cin >> n >> m ;
+        
+        long long int array[n] ;
+        for(int i = 0 ; i < n ; i++)
+            std::cin >> array[i] ;
+        
+        std::sort( array , array + n ) ;
+        
+        //for(int i = 0 ; i < n ; i++)
+        //    std::cout << array[i] << ' ' ;
+        //std::cout << '\n' ;
+ 
+        int start = 0 ;
+        int end = 0 ;
+        long long int sum = 0 ;
+        while ( end < n && array[end] <= array[start] + 1 && sum <= m ) {
+            sum += array[end] ;
+            end++ ;
+        }
+        if ( sum > m ) {
+            end-- ;
+            sum -= array[end] ;
+        }
+        
+        //std::cout << start << ' ' << end << ' ' << sum << std::endl ;
+        long long int max = sum ;
+        while ( start < n ) {
+            if ( sum > 0 )
+                sum -= array[start] ;
+            
+            start++ ;
+            if ( start >= n )
+                break ;
+            
+            if ( end < start )
+                end = start ;
+            
+            while ( end < n && array[end] <= array[start] + 1 && sum <= m ) {
+                sum += array[end] ;
+                end++ ;
+            }
+            if ( sum > m ) {
+                end-- ;
+                sum -= array[end] ;
+            }
+            if ( max < sum )
+                max = sum ;
+            
+            //std::cout << start << ' ' << end << ' ' << sum << std::endl ;
+        }
+        
+        std::cout << max << std::endl ;
+            
+    }
+    
+    
+    
+    
+    return 0 ;
+}
