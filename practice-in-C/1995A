@@ -1,0 +1,31 @@
+想法：反向操作，想成空白處最多可以填滿多少對角線
+需注意剛好填完的情況
+
+#include<stdio.h>
+
+int main(void)
+{
+    int t ;
+    scanf("%d" , &t) ;
+    
+    while (t--) {
+        int n , k ;
+        scanf("%d%d" , &n , &k) ;
+        
+        int fill = n * n - k ;
+        int count = 0 ;
+        while ( fill > 0 ) {
+            int target = count / 2 + 1 ;
+            fill -= target ;
+            count++ ;
+        }
+        if ( fill < 0 )
+            count-- ;
+        printf("%d\n" , 2 * n - 1 - count ) ;
+        
+    }
+    
+    
+    
+    return 0 ;
+}
