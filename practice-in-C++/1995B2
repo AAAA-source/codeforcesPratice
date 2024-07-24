@@ -1,0 +1,106 @@
+想法：與easy version差不多，皆是檢查目前花瓣數量與後一個花瓣數量組合
+而此題面對組合時不能用暴力解搜尋最佳解（嘗試過，結果TLE）
+要先用最多小花瓣與相應的大花瓣數量填滿到越接近 m 越好
+key : 試著小花瓣替換成大花瓣，以接近 m (每替換一個就會多1 cost)，而替換的數量是小花瓣數量、與m的差距以及剩餘的大花瓣數量三者的最小值
+
+
+#include<iostream>
+#include<algorithm>
+#include<stdio.h>
+
+struct type {
+    long long int petals ;
+    long long int quantity ;
+} ;
+typedef struct type Type ;
+
+bool compare(Type a , Type b)
+{
+    return (a.petals < b.petals) ;
+    
+}
+
+long long int min(long long int a , long long int b)
+{
+    return (a < b)? a : b ;
+}
+long long int max(long long int a , long long int b)
+{
+    return (a > b)? a : b ;
+}
+
+long long int cost( long long int petals1 , long long int num1 , long long int petals2 , long long int numlimits2 , long long int m )
+{
+    long long int temp = m - petals1 * num1 ;
+    return petals1 * num1
+        + min((temp / petals2) , numlimits2) * petals2 ;
+}
+
+long long int min3(long long int a , long long int b , long long int c)
+{
+    long long int m = a ;
+    if ( b < m )
+        m = b ;
+    if ( c < m )
+        m = c ;
+    
+    return m ;
+}
+
+int main(void)
+{
+    long long int t ;
+    scanf("%lld" , &t) ;
+    
+    while (t--) {
+        long long int n , m ;
+        std::cin >> n >> m ;
+        
+        Type array[n] ;
+        for(int i = 0 ; i < n ; i++) {
+            std::cin >> array[i].petals ;
+        }
+        
+        for(int i = 0 ; i < n ; i++) {
+            std::cin >> array[i].quantity ;
+        }
+        
+        std::sort( array , array + n , compare ) ;
+        //for(int i = 0 ; i < n ; i++)
+        //    std::cout << '(' << array[i].petals << ' ' << array[i].quantity << ')' << ' ' ;
+        //std::cout << std::endl ;
+        
+        long long int max_petals = 0 ;
+        for(int i = 0 ; i < n ; i++) {
+            long long int sum = 0 ;
+            if ( i + 1 >= n || array[i + 1].petals > array[i].petals + 1 ) {
+                // only one type of flowers
+                
+                sum = min( array[i].petals * array[i].quantity , (m / array[i].petals) * array[i].petals ) ;
+                
+            }
+            else {
+                // two types : i-th , (i+1)-th
+                if ( array[i].petals * array[i].quantity + array[i + 1].petals * array[i + 1].quantity <= m )
+                    sum = array[i].petals * array[i].quantity + array[i + 1].petals * array[i + 1].quantity ;
+                else {
+                    long long int num = min(m / array[i].petals , array[i].quantity) ;
+                    
+                    // find the most proper j
+                    long long int left = m - num * array[i].petals ;
+                    long long int num2 = min( array[i + 1].quantity , left / array[i + 1].petals ) ;
+                    
+                    left -= num2 * array[i + 1].petals ;
+                    
+                    long long int trans = min3( left , array[i + 1].quantity - num2 , num ) ;
+                    sum = m - left + trans ;
+                }
+            }
+            //std::cout << sum << std::endl ;
+            max_petals = max( sum , max_petals ) ;
+        }
+        std::cout << max_petals << std::endl ;
+    }
+    
+    return 0 ;
+}
