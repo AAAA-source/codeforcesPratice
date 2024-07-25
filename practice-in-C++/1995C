@@ -1,0 +1,56 @@
+想法：這題要先算出 array[i - 1] ^(1/2) < array[i] <= array[i - 1] ^ 2 所需要的操作數
+如此限制下，就可以想像成前一個元素操作幾次，後一個元素也要操作相同次數
+故只需將每個元素為了符合規律所需的操作次數減掉調整成上述式子所需的操作數即可
+
+
+#include<iostream>
+#include<algorithm>
+
+int main(void)
+{
+    int t ;
+    std::cin >> t ;
+    
+    while (t--) {
+        int n ;
+        std::cin >> n ;
+        
+        long long int array[n] ;
+        for(int i = 0 ; i < n ; i++)
+            std::cin >> array[i] ;
+        
+        
+        long long int sum = 0 ;
+        long long int last = 0 ;
+        for(int i = 1 ; i < n ; i++) {
+            if ( array[i - 1] > array[i] && array[i] == 1 ) {
+                sum = -1 ;
+                break ;
+            }
+            
+            long long int now = 0 ;
+            if ( array[i - 1] == 1 ) {
+                last = 0 ;
+                continue ;
+            }
+            long long int a = array[i - 1] , b = array[i] ;
+            
+            while ( a * a  <= b ) {
+                now-- ;
+                a *= a ;
+            }
+            
+            while ( b < a ) {
+                now++ ;
+                b *= b ;
+            }
+            
+            last = std::max( (long long int)0 , last + now) ;
+            sum += last ;
+        }
+        
+        std::cout << sum << std::endl ;
+    }
+    
+    return 0 ;
+}
