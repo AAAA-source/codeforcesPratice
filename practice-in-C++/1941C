@@ -1,0 +1,52 @@
+想法：因為兩組字串都很短，所以可以直接搜索
+特別注意的是當出現mapie時要拿掉中間的 p
+其餘就是拿掉中間元素 a 跟 i，就能確保不會出現特定字詞
+
+#include<iostream>
+#include<string>
+
+using std::string ;
+using std::cin ;
+using std::cout ;
+using std::endl ;
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        int n ;
+        cin >> n ;
+        
+        string s ;
+        cin >> s ;
+        
+        int count = 0 ;
+        for(int i = 0 ; i <= n - 5 ; i++) {
+            if ( s[i] == 'm' && s[i + 1] == 'a' && s[i + 2] == 'p' && s[i + 3] == 'i' && s[i + 4] == 'e' ) {
+                s[i + 2] = ' ' ;
+                count++ ;
+            }
+        }
+        
+        for(int i = 0 ; i <= n - 3 ; i++) {
+            if ( s[i] == 'm' && s[i + 1] == 'a' && s[i + 2] == 'p'  ) {
+                s[i + 1] = ' ' ;
+                count++ ;
+            }
+        }
+        
+        for(int i = 0 ; i <= n - 3 ; i++) {
+            if ( s[i] == 'p' && s[i + 1] == 'i' && s[i + 2] == 'e'  ) {
+                s[i + 1] = ' ' ;
+                count++ ;
+            }
+        }
+        
+        cout << count << endl ;
+    }
+    
+    
+    return 0 ;
+}
