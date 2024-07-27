@@ -1,0 +1,27 @@
+想法：先設法有最多的牛，剩下的用雞填滿數目
+
+#include<iostream>
+#include<string>
+#include<algorithm>
+
+using std::cin ;
+using std::cout ;
+using std::string ;
+using std::endl ;
+using std::min ;
+using std::max ;
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    while ( t-- ) {
+        int n ;
+        cin >> n ;
+        
+        cout << n / 4 + (n % 4) / 2 << endl ;
+        
+    }
+    
+    return 0 ;
+}
