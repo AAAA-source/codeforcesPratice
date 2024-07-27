@@ -1,0 +1,40 @@
+想法：每次選擇較前面的字元變更為'A'，若已變更則選擇較後面的字元
+
+#include<iostream>
+#include<string>
+#include<algorithm>
+
+using std::cin ;
+using std::cout ;
+using std::string ;
+using std::endl ;
+using std::min ;
+using std::max ;
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    while ( t-- ) {
+        int n , m ;
+        cin >> n >> m ;
+        string s(m , 'B') ;
+        
+        for(int i = 0 ; i < n ; i++) {
+            int temp ;
+            cin >> temp ;
+            if ( s[min(temp - 1 , m - temp)] == 'B' )
+                s[ min(temp - 1 , m - temp) ] = 'A' ;
+            else
+                s[ max(temp - 1 , m - temp) ] = 'A' ;
+        }
+        
+        
+        
+        cout << s << endl ;
+    }
+    
+    
+    
+    return 0 ;
+}
