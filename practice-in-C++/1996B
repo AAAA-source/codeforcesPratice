@@ -1,0 +1,44 @@
+想法：因為任一區域所有元素都一樣，所以直接看右上角元素即可
+需注意輸入形式即可
+
+#include<iostream>
+#include<string>
+#include<vector>
+#include<algorithm>
+
+using std::cin ;
+using std::cout ;
+using std::string ;
+using std::vector ;
+using std::endl ;
+using std::min ;
+using std::max ;
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    while ( t-- ) {
+        int n , k ;
+        cin >> n >> k ;
+        
+        
+        vector<string> v ;
+        for(int i = 0 ; i < n  ; i++) {
+            string s ;
+            cin >> s ;
+            
+            v.push_back(s) ;
+        }
+        
+        for(decltype(v.size() ) i = 0 ; i < n / k ; i++) {
+            for(decltype(v[i].size() ) j = 0 ; j < n / k ; j++) {
+                cout << v[i * k][j * k] ;
+            }
+            cout << '\n' ;
+        }
+        
+    }
+    
+    return 0 ;
+}
