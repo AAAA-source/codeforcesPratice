@@ -1,0 +1,84 @@
+想法：因為只會出現26個小寫字母，所以可以用一個二維陣列紀錄出現過的字母數量（sort時只需注意數量差別）
+在每次提問時把字母頻率不同者紀錄下來，因為每次operation 可以抵銷兩次頻率，所以最後輸出diff / 2 
+
+fun fact ：需要特別注意l , r所代表的狀況
+
+#include<iostream>
+#include<string>
+#include<vector>
+#include<algorithm>
+#include<cstdlib>
+
+using std::cin ;
+using std::cout ;
+using std::string ;
+using std::vector ;
+using std::endl ;
+using std::min ;
+using std::max ;
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        int n , q ;
+        cin >> n >> q ;
+        
+        string a , b ;
+        cin >> a ;
+        cin >> b ;
+        
+        vector< vector<int> > counta(n) ;
+        vector< vector<int> > countb(n) ;
+        
+        for(int j = 0 ; j < 26 ; j++) {
+            counta[0].push_back(0) ;
+            countb[0].push_back(0) ;
+        }
+        
+        
+        for(int i = 0 ; i < n ; i++) {
+            if ( i > 0 ) {
+                counta[i] = counta[i - 1] ;
+                countb[i] = countb[i - 1] ;
+            }
+
+            counta[i][ a[i] - 'a' ]++ ;
+            countb[i][ b[i] - 'a' ]++ ;
+        }
+        
+        for(int i = 0 ; i < q ; i++) {
+            int l , r ;
+            cin >> l >> r ;
+            
+            int diff = 0 ;
+            if ( l == 1 ) {
+                for(int j = 0 ; j < 26 ; j++) {
+                    diff += abs( counta[r - 1][j] - countb[r - 1][j] ) ;
+                }
+            }
+            else {
+                vector<int> temp(26 , 0) ;
+                for(int j = 0 ; j < 26 ; j++) {
+                    temp[ j ] += (counta[r - 1][j] - counta[l - 2][j]) ;
+                    temp[ j ] -= (countb[r - 1][j] - countb[l - 2][j]) ;
+                }
+                
+                for(int j = 0 ; j < 26 ; j++) {
+                    diff += abs( temp[j] ) ;
+                }
+                
+            }
+            
+            cout << diff / 2 << endl ;
+        }
+        
+        
+    }
+    
+        
+    
+    return 0 ;
+}
