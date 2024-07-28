@@ -1,0 +1,69 @@
+想法：練習Ｃ語法用，可參考 pratice-in-C++中一樣的題目
+
+fun fact：Ｃ的速度竟然比C++慢了一點！？
+
+#include<stdio.h>
+#include<stdlib.h>
+
+int main(void)
+{
+    int t ;
+    scanf("%d" , &t) ;
+    
+    while (t--) {
+        int n , q ;
+        scanf("%d%d" , &n , &q) ;
+        
+        char a[n + 5] , b[n + 5] ;
+        scanf("%s" , a) ;
+        scanf("%s" , b) ;
+        
+        int counta[n][26] ;
+        int countb[n][26] ;
+        
+        for(int j = 0 ; j < 26 ; j++) {
+            counta[0][j] = 0 ;
+            countb[0][j] = 0 ;
+        }
+        
+        for(int i = 0 ; i < n ; i++) {
+            for(int j = 0 ;i > 0 && j < 26 ; j++) {
+                counta[i][j] = counta[i - 1][j] ;
+                countb[i][j] = countb[i - 1][j] ;
+            }
+            
+            counta[i][ a[i] - 'a' ]++ ;
+            countb[i][ b[i] - 'a' ]++ ;
+        }
+        
+        for(int i = 0 ; i < q ; i++) {
+            int l , r ;
+            scanf("%d%d" , &l , &r) ;
+            
+            int diff = 0 ;
+            if ( l == 1 ) {
+                for(int j = 0 ; j < 26 ; j++)
+                    diff += abs( counta[r - 1][j] - countb[r - 1][j] ) ;
+            }
+            else {
+                int temp[26] = {0} ;
+                for(int j = 0 ; j < 26 ; j++) {
+                    temp[j] += ( counta[r - 1][j] - counta[l - 2][j] ) ;
+                    temp[j] -= ( countb[r - 1][j] - countb[l - 2][j] ) ;
+                    
+                    diff += abs( temp[j] ) ;
+                }
+            }
+            
+            
+            printf("%d\n" , diff / 2) ;
+        }
+        
+        
+        
+    }
+    
+    
+    
+    return 0 ;
+}
