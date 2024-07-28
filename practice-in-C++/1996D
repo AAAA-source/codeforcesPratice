@@ -1,0 +1,36 @@
+想法：因為ab <= n ， 所以b <= n / a ，因此將a 從1 loop 到 min(n , x) ，在loop 所有可能的b 即可
+而因為每一個 b 最多會有 n / a 種可能，可收斂至nlog n
+而可搭配的 c 則是從 1 到 min ( (n - a * b) / (a + b) , x - a - b ) 
+
+#include<iostream>
+#include<algorithm>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        int n , x ;
+        cin >> n >> x ;
+        
+        long long int count = 0 ;
+        for(int a = 1 ; a <= std::min(n , x) ; a++) {
+            for(int b = 1 ; b <= n / a && a + b <= x ; b++) {
+                int temp = std::min( (n - a * b) / (a + b) , x - a - b ) ;
+                count += temp ;
+            }
+        }
+        
+        
+        cout << count << endl ;
+        
+    }
+    
+    
+    return 0 ;
+}
