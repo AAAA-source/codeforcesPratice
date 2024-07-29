@@ -1,0 +1,45 @@
+想法：因為要每個元素都不同，最簡單的方法就是全部都是原本元素加一，只需特別處理 n * m 要變成 1 即可
+
+#include<iostream>
+#include<algorithm>
+#include<vector>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    
+    while ( t-- ) {
+        int n , m ;
+        cin >> n >> m ;
+        
+        if ( n * m == 1 ) {
+            int nothing ;
+            cin >> nothing ;
+            cout << -1 << endl ;
+            continue ;
+        }
+        
+        for(int i = 0 ; i < n ; i++) {
+            for(int j = 0 ; j < m ; j++) {
+                int temp ;
+                cin >> temp ;
+                if ( temp == n * m )
+                    cout << 1 << ' ' ;
+                else
+                    cout << temp + 1 << ' ' ;
+                
+            }
+            cout << endl ;
+        }
+        
+        
+    }
+    
+    
+}
