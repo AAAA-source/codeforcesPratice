@@ -1,0 +1,48 @@
+想法：最好的情況就是在兩個相同元素間插入一個不同元素，所以可以找出是否有兩個相同元素相鄰的情況
+否則任意插入一個與前後不同的元素即可
+
+#include<iostream>
+#include<string>
+#include<vector>
+
+using std::cin ;
+using std::cout ;
+using std::string ;
+using std::vector ;
+using std::endl ;
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        string s ;
+        cin >> s ;
+        
+        int index = -1 ;
+        for( int i = 0 ; i < s.size() - 1 ; i++ ) {
+            if ( s[i] == s[i + 1] ) {
+                index = i ;
+            }
+        }
+        
+        if ( index == -1 ) {
+            char temp = (s[ s.size() - 1 ] - 'a' +  1 ) % 26 + 'a' ;
+            cout << s << temp ;
+        }
+        else {
+            char temp = ( s[index] - 'a' + 1 ) % 26 + 'a' ;
+            for(int i = 0 ; i <= index ; i++)
+                cout << s[i] ;
+            cout << temp ;
+            for(int i = index + 1 ; i < s.size() ; i ++)
+                cout << s[i] ;
+        }
+        
+        cout << endl ;
+    }
+    
+    
+    return 0 ;
+}
