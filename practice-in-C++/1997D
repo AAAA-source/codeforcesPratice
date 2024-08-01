@@ -1,0 +1,112 @@
+想法：這題可以用 dp 思維去想，先尋找子樹最大可以做幾次operation，最後在更改到 root
+僅需使用dfs traverse 一次即可
+
+#include<iostream>
+#include<string>
+#include<vector>
+#include<climits>
+#include<algorithm>
+
+using std::cin ;
+using std::cout ;
+using std::string ;
+using std::vector ;
+using std::endl ;
+
+struct node {
+    int parent ;
+    int index ;
+    int value ;
+    vector<int> children ;
+} ;
+typedef struct node Node ;
+
+vector<Node> total ;
+void find( int ind )
+{
+    //cout << "now visit " << ind << endl ;
+    if ( total[ind - 1].children.empty() ) {
+        // this is leaf
+        //cout << "end visit " << ind << endl ;
+        return ;
+    }
+    
+    int min = INT_MAX ;
+    for( int i = 0 ; i < total[ind - 1].children.size() ; i++ ) {
+        find( total[ind - 1].children[i] ) ;
+        
+        //cout << "child's "<< '(' << total[ind - 1].children[i] << ')'
+        // <<" value = " << total[ total[ind - 1].children[i] - 1 ].value << endl ;
+        
+        if ( min > total[ total[ind - 1].children[i] - 1 ].value )
+            min = total[ total[ind - 1].children[i] - 1 ].value ;
+    }
+    //cout << "min = " << min << endl ;
+    if (ind != 1 && min <= total[ind - 1].value )
+        total[ind - 1].value = min ;
+    else {
+        if ( ind != 1 )
+            total[ind - 1].value = ( min + total[ind - 1].value ) / 2 ;
+        else
+            total[ind - 1].value += min ;
+    }
+    
+    //cout << "change vertices " << ind << " to " << total[ind - 1].value << endl ;
+    //cout << "end visit " << ind << endl ;
+    return ;
+}
+
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        int n ;
+        cin >> n ;
+        
+        for(int i = 0 ; i < n ; i++) {
+            Node temp ;
+            int val ;
+            cin >> val ;
+            temp.value = val ;
+            temp.index = i + 1 ;
+            
+            total.push_back(temp) ;
+        }
+        
+        for(int i = 1 ; i < n ; i++) {
+            int par ;
+            cin >> par ;
+            
+            total[i].parent = par ;
+            total[par - 1].children.push_back(i + 1) ;
+            
+        }
+        
+        
+        //for(int i = 0 ; i < n ; i++) {
+        //    cout << "this is vertice " << i + 1 << '(' << total[i].value << ')' <<  endl ;
+        //    for( int j = 0 ; j < total[i].children.size() ; j++ )
+        //        cout << total[i].children[j] << ' ' ;
+        //
+        //    cout << endl ;
+        //}
+        
+        
+        
+        
+        find(1) ;
+        
+        
+        
+        cout << total[0].value << endl ;
+        
+        total.clear() ;
+        total.shrink_to_fit() ;
+    }
+    
+    
+    return 0 ;
+}
