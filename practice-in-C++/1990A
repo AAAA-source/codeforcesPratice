@@ -1,0 +1,62 @@
+想法：先排序後，因為選擇一定要大於現下數值，所以其實可以比較最大數值的數量
+如果最大值數量是偶數，就要比較次大值出現的數量
+同理，最後就是比較由大到小有沒有哪個數字出現奇數數字
+
+#include<iostream>
+#include<vector>
+#include<algorithm>
+
+using std::cin ;
+using std::cout ;
+using std::vector ;
+using std::sort ;
+using std::endl ;
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        int n ;
+        cin >> n ;
+        
+        vector<int> v ;
+        for( int i = 0 ; i < n ; i++ ) {
+            int temp ;
+            cin >> temp ;
+            v.push_back(temp) ;
+        }
+        
+        sort(v.begin(), v.end()) ;
+        
+        int count = 0 ;
+        bool flag = false ;
+        decltype( v.size() ) cursor = v.size() - 1 ;
+        for( decltype( v.size() ) i = v.size() - 1 ;!flag && i < n && i >= 0 ; i-- ) {
+            if ( v[i] == v[cursor] )
+                count++ ;
+            else {
+                if ( count % 2 == 1 )
+                    flag = true ;
+                
+                count = 1 ;
+                cursor = i ;
+            }
+        }
+        
+        if ( count % 2 == 1 )
+            flag = true ;
+        
+        if ( flag )
+            cout << "Yes" << endl ;
+        else
+            cout << "No" << endl ;
+        
+    }
+    
+    
+    
+    
+    return 0 ;
+}
