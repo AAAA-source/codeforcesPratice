@@ -1,0 +1,49 @@
+想法：因為要找出可以將全部分為三塊區域的格子，所以實際上只有兩種形式
+...      .x.       x.x       x.x
+x.x 變成  x.x 或是  ...  變成  .x. 
+所以只要找出多少格子符合這兩種形式即可
+
+#include<iostream>
+#include<string>
+
+using std::cin ;
+using std::cout ;
+using std::string ;
+using std::endl ;
+
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        int n ;
+        cin >> n ;
+        
+        string s[2] ;
+        cin >> s[0] ;
+        cin >> s[1] ;
+        
+        int count = 0 ;
+        for( decltype( s[0].size() ) i = 1 ; i < s[0].size() - 1 ; i++ ) {
+            if ( s[0][i - 1] == '.' && s[0][i] == '.' && s[0][i + 1] == '.'
+                 && s[1][i - 1] == 'x' && s[1][i] == '.' && s[1][i + 1] == 'x' )
+                count++ ;
+            
+            if ( s[1][i - 1] == '.' && s[1][i] == '.' && s[1][i + 1] == '.'
+                && s[0][i - 1] =='x' && s[0][i] == '.' && s[0][i + 1] == 'x' )
+                count++ ;
+            
+            
+        }
+        
+        
+        
+        cout << count << endl ;
+    }
+    
+    
+    
+    return 0 ;
+}
