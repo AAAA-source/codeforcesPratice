@@ -1,0 +1,67 @@
+想法：先考慮合法性的問題，需先有多餘的'('在前面才可以插入')' ，所以用 balance 變數紀錄是否有多餘的狀況，否則就插入'('
+接著考慮 optimal的特性，可以想見此方法會將最近兩個 ( ) 配置在一起，因此可以有最少cost
+（詳細證明tutorial有寫）
+
+#include<iostream>
+#include<string>
+#include<vector>
+
+using std::cin ;
+using std::cout ;
+using std::string ;
+using std::endl ;
+using std::vector ;
+
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        int n ;
+        cin >> n ;
+        
+        string s ;
+        cin >> s ;
+        
+        int balance = 0 ;
+        vector<int> a ;
+        vector<int> b ;
+        for( int i = 0 ; i < s.size() ; i++ ) {
+            if ( s[i] == '(' ) {
+                a.push_back(i) ;
+                balance++ ;
+            }
+            else if ( s[i] == ')' ) {
+                b.push_back(i) ;
+                balance-- ;
+            }
+            else {
+                if ( balance <= 0 ) {
+                    a.push_back(i) ;
+                    s[i] = '(' ;
+                    balance++ ;
+                }
+                else {
+                    b.push_back(i) ;
+                    s[i] = ')' ;
+                    balance-- ;
+                }
+            }
+        }
+        
+            
+            
+        
+        int count = 0 ;
+        for(int i = 0 ; i < n / 2 ; i++)
+            count += ( b[i] - a[i] ) ;
+        
+        cout << count << endl ;
+    }
+    
+    
+    
+    return 0 ;
+}
