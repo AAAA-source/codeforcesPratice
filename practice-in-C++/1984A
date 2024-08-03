@@ -1,0 +1,50 @@
+想法：如果第一個元素跟最後一個元素相同，代表整個陣列都是相同元素，這樣就不可能有合理的排列；
+反之，如果不同的話只要包含第一個與最後一個，另外一個顏色單獨一個元素即可。
+
+#include<iostream>
+#include<vector>
+#include<algorithm>
+
+using std::cin ;
+using std::cout ;
+using std::vector ;
+using std::sort ;
+using std::endl ;
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        int n ;
+        cin >> n ;
+        
+        vector<int> v ;
+        for(int i = 0 ; i < n ; i++) {
+            int temp ;
+            cin >> temp ;
+            v.push_back(temp) ;
+        }
+        
+        if ( v[0] == v[ n - 1 ] ) {
+            cout << "No" << endl ;
+            continue ;
+        }
+        
+        cout << "Yes" << endl ;
+        for( decltype( v.size() ) i = 0 ; i < v.size() ; i++ ) {
+            if ( i == 1 )
+                cout << 'B' ;
+            else
+                cout << 'R' ;
+        }
+        cout << endl ;
+        
+        
+    }
+    
+    
+    
+    return 0 ;
+}
