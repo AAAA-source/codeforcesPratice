@@ -1,0 +1,59 @@
+想法：因為只要考慮負數的運算，為了求最大值，可以先把所有元素相加，當結果為負數時就紀錄下來
+這樣就會有一個最後一個元素以外都是負數的序列，將所有負數相加，倒數二個元素再加絕對值
+如此，只需考慮最後一個元素是正數還是負數即可
+
+#include<iostream>
+#include<vector>
+#include<algorithm>
+
+using std::cin ;
+using std::cout ;
+using std::vector ;
+using std::sort ;
+using std::endl ;
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        int n ;
+        cin >> n ;
+        
+        vector<long long int> a ;
+        for(int i = 0 ; i < n ; i++) {
+            int temp ;
+            cin >> temp ;
+            a.push_back(temp) ;
+        }
+        
+        long long int now = 0 ;
+        vector<long long int> b ;
+        for( decltype( a.size() ) i = 0 ; i != a.size() ; i++ ) {
+            if ( now < 0 ) {
+                b.push_back(now) ;
+                now = a[i] ;
+            }
+            else
+                now += a[i] ;
+        }
+        
+        b.push_back( now ) ;
+        long long int sum = 0 ;
+        for( decltype( b.size() ) i = 0 ; i != b.size() - 1 ; i++ ) {
+            sum -= b[i] ;
+        }
+        if ( b[ b.size() - 1 ] > 0 )
+            sum += b[ b.size() - 1 ] ;
+        else
+            sum -= b[ b.size() - 1 ] ;
+        
+        
+        cout << sum << endl ;
+    }
+    
+    
+    
+    return 0 ;
+}
