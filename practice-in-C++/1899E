@@ -1,0 +1,60 @@
+想法：要成功 sort 的條件就是最小的元素後面必須是排序好的，否則不可能成功
+因此，先檢查是否已經排序好；否則就檢查最小元素之後是否排序好
+如果後面以排序好，只需將最小元素以前所有元素執行operation即可
+
+
+#include<iostream>
+#include<vector>
+#include<algorithm>
+
+using std::cin ;
+using std::cout ;
+using std::vector ;
+using std::sort ;
+using std::endl ;
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        int n ;
+        cin >> n ;
+        
+        vector<int> a ;
+        for(int i = 0 ; i < n ; i++) {
+            int temp ;
+            cin >> temp ;
+            a.push_back(temp) ;
+        }
+        
+        decltype(a.size()) min_index = 0 ;
+        bool sorted = 1 ;
+        for( decltype(a.size()) i = 0 ; i != a.size() ; i++ ) {
+            if ( a[min_index] > a[i] )
+                min_index = i ;
+            
+            if ( i > 0 && a[i] < a[i - 1] )
+                sorted = 0 ;
+        }
+        
+        if ( sorted ) {
+            cout << 0 << endl ;
+            continue ;
+        }
+        
+        sorted = 1 ;
+        for( decltype( a.size() ) i = min_index + 1 ;sorted && i != a.size() ; i++ ) {
+            if ( a[i] < a[i - 1] )
+                sorted = 0 ;
+        }
+        
+        if ( !sorted )
+            cout << -1 << endl ;
+        else
+            cout << min_index << endl ;
+    }
+    
+    return 0 ;
+}
