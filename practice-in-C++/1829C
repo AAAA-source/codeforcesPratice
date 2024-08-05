@@ -1,0 +1,53 @@
+想法：要有最小 cost 只可能是兩種情形，一種是有本書是'11' ，另一種是 '10' + '01'的最小組合
+所以只要紀錄'11' , '10' , '01' 三類書的最小cost即可
+
+fun fact：第一次上傳吃 WA ，因為可能有 200000 + 200000 的情況，所以三變數的初始值要大於此情形
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<algorithm>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        int n ;
+        cin >> n ;
+        
+        int have_one = 600001 ;
+        int have_two = 600001 ;
+        int have_both = 600001 ;
+        
+        for(int i = 0 ; i < n ; ++i) {
+            int cost ;
+            cin >> cost ;
+            string s ;
+            cin >> s ;
+            
+            if ( s[0] == '1' )
+                have_one = std::min( have_one , cost ) ;
+            if ( s[1] == '1' )
+                have_two = std::min( have_two , cost ) ;
+            if ( s[0] == '1' && s[1] == '1' )
+                have_both = std::min( have_both , cost ) ;
+            
+        }
+        if ( std::min( have_both , have_one + have_two ) == 600001 )
+            cout << -1 << endl ;
+        else
+            cout << std::min( have_both , have_one + have_two ) << endl ;
+    }
+    
+    
+    return 0 ;
+}
