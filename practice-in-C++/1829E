@@ -1,0 +1,56 @@
+想法：dfs一次即可，並把看過的位置改為 0
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<algorithm>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+
+int array[1005][1005] ;
+int n , m ;
+
+long long int dfs( int i , int j )
+{
+    if ( i < 0 || i >= n || j < 0 || j >= m || array[i][j] == 0 )
+        return 0 ;
+    
+    int temp = array[i][j] ;
+    array[i][j] = 0 ;
+    return temp + dfs(i - 1 , j ) + dfs(i + 1 , j ) + dfs(i , j - 1) + dfs(i , j + 1) ;
+}
+
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        cin >> n >> m ;
+        
+        for(int i = 0 ; i < n ; i++) {
+            for(int j = 0 ; j < m ; j++) {
+                cin >> array[i][j] ;
+            }
+        }
+        
+        long long int max = 0 ;
+        for(int i = 0 ; i < n ; i++) {
+            for(int j = 0 ; j < m ; j++) {
+                if ( array[i][j] == 0 )
+                    continue ;
+                
+                max = std::max( max , dfs(i , j) ) ;
+            }
+        }
+        cout << max << endl ;
+    }
+    
+    
+    return 0 ;
+}
