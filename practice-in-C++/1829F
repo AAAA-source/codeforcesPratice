@@ -1,0 +1,55 @@
+想法：此題困難點在於不知道哪個 node 是中心，所以我們需要先用一個 count array 紀錄每個 node 被多少 edge 作用
+並找出一個末端節點（只有一個 edge 作用），接著再往上找出中間節點跟中心節點即可
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<algorithm>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        int n , m ;
+        cin >> n >> m ;
+        
+        vector<int> count(n + 5 , 0) ;
+        vector< vector<int> > effect(n + 5) ;
+        for(int i = 0 ; i < m ; ++i) {
+            int u , v ;
+            cin >> u >> v ;
+            ++count[u] ;
+            ++count[v] ;
+ 
+            effect[u].push_back(v) ;
+            effect[v].push_back(u) ;
+        }
+        
+        int index = 1 ;
+        while ( count[index] != 1)
+            ++index ;
+        
+        int midle_index = effect[index][0] ;
+        int center_node = 0 ;
+        for( decltype(effect[midle_index].size()) i = 0 ; i != effect[midle_index].size() ; ++i ) {
+            if ( count[ effect[midle_index][i] ] != 1 )
+                center_node = effect[midle_index][i] ;
+        }
+        
+        //cout << "midle index is " << midle_index << endl ;
+        //cout << "center index is " << center_node << endl ;
+        cout << count[center_node] << ' ' << count[ midle_index ] - 1 << endl ;
+    }
+    
+    
+    return 0 ;
+}
