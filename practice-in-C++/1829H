@@ -1,0 +1,83 @@
+想法：根據dp思想，判斷出前 i 個元素已經有的方法數(範圍是0 - 63) 
+1. 沒有用到第 i 個元素
+2. 用到第 i 個元素
+3. 從第 i 個元素開始
+每次有新的元素就把範圍中每個數都嘗試一遍即可
+
+fun fact：為了方便性用了比較不好的宣告，請見諒 
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<algorithm>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+
+#define MOD 1000000007
+
+int count_bit(int n)
+{
+    int count = 0 ;
+    for(int i = 1 ; i < (1 << 6) ; i <<= 1) {
+        if ( n & i )
+            count++ ;
+    }
+    
+    return count ;
+}
+
+int main(void)
+{
+    long long int t ;
+    cin >> t ;
+    
+    while (t--) {
+        int n , k ;
+        cin >> n >> k ;
+        
+        int array[n + 5] ;
+        array[0] = 0 ;
+        for(int i = 1 ; i <= n ; i++)
+            cin >> array[i] ;
+        
+        long long int dp[n + 5][64] ;
+        for(int j = 0 ; j < 64 ; j++)
+            dp[0][j] = 0 ;
+        
+        
+        for(int i = 1 ; i <= n ; ++i) {
+            for(int j = 0 ; j < 64 ; j++)
+                dp[i][j] = 0 ;
+            for(int j = 0 ; j <= 63 ; ++j) {
+                // type 1 : don't use i-th element
+                dp[i][j] += dp[i - 1][j] ;
+                dp[i][j] %= MOD ;
+                // type 2 : use i-th element
+                dp[i][ array[i] & j ] += dp[i - 1][j] ;
+                dp[i][ array[i] & j ] %= MOD ;
+            }
+            // type 3 : start from i-th element
+            dp[i][ array[i] ] += 1 ;
+            dp[i][ array[i] ] %= MOD ;
+            
+            //cout << dp[i][1] << endl ;
+        }
+        
+        long long int sum = 0 ;
+        for(int i = 0 ; i <= 63 ; ++i) {
+            if ( count_bit(i) == k ) {
+                sum += dp[n][i] ;
+                sum %= MOD ;
+            }
+        }
+        
+        cout << sum << endl ;
+    }
+    
+    
+    return 0 ;
+}
