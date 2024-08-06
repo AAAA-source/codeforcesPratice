@@ -1,0 +1,43 @@
+想法：直接用遞迴測試是否可能即可
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<algorithm>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+
+bool valid(int n , int m)
+{
+    if ( n == m )
+        return true ;
+    if ( n < m || n % 3 != 0 )
+        return false ;
+     
+    return valid( n / 3 , m ) || valid( n / 3 * 2 , m ) ;
+}
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        int n , m ;
+        cin >> n >> m ;
+        
+        if ( valid(n , m) )
+            cout << "YES" << endl ;
+        else
+            cout << "NO" << endl ;
+        
+        
+    }
+    
+    
+    return 0 ;
+}
