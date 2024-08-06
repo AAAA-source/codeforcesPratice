@@ -1,0 +1,65 @@
+想法：先把所有數值存成
+1
+2 3
+4 5 6
+7 8 9 10  這樣的形式
+然後可以發現受影響的部分其實就是該數字以上的所有對角線，所以把該數字的該條對角線累積的數值記錄下來
+最後再把所有對角線相加即可
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<algorithm>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+
+long long int array[2025][2025] = {{0}} ;
+long long int pair[ 2023 * 1012 + 10 ][2] ;
+
+int main(void)
+{
+    long long int t ;
+    cin >> t ;
+    
+    long long int cursor = 1 ;
+    for(long long int i = 0 ; i < 2023 ; i++) {
+        for(long long int j = 0 ; j <= i ; j++) {
+            array[i][j] = cursor * cursor ;
+            
+            if ( i > 0 && j > 0 )
+                array[i][j] += array[i - 1][j - 1] ;
+            
+            
+            pair[cursor][0] = i ;
+            pair[cursor][1] = j ;
+            cursor++ ;
+        }
+    }
+    
+    
+    
+    
+    while (t--) {
+        long long int n ;
+        cin >> n ;
+        
+        //cout << "CHECK" << endl ;
+        //for(int i = 1 ; i <= n ; i++) {
+        //    cout << "array[" << pair[i][0] << "][" << pair[i][1] << "] is " << array[ pair[i][0] ][ pair[i][1] ] << endl ;
+        //}
+        
+        long long int sum = 0 ;
+        for(long long int i = pair[n][0] ; i >= 0 ; i-- ) {
+            sum += array[i][ pair[n][1] ] ;
+        }
+        
+        cout << sum << endl ;
+    }
+    
+    
+    return 0 ;
+}
