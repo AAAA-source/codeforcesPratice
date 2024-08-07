@@ -1,0 +1,52 @@
+想法：先紀錄所有在忙的時段，因為每個時段是嚴格遞增的，所以只需要判斷現在在忙的結尾與下一個在忙的開頭中間間隔多少即可
+需特別注意第一個與最後一個還要與0 , m 判斷
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<algorithm>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+
+
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        int n , s , m ;
+        cin >> n >> s >> m ;
+        vector<int> l(n) ;
+        vector<int> r(n) ;
+        
+        for(int i = 0 ; i < n ; i++) {
+            cin >> l[i] >> r[i] ;
+        }
+        
+        bool success = false ;
+        for(int i = 0 ;!success && i < n ; i++ ) {
+            if ( i == 0 && l[i] - 0 >= s )
+                success = true ;
+            
+            if ( i == n - 1 && m - r[i] >= s )
+                success = true ;
+            
+            if ( i < n - 1 && l[i + 1] - r[i] >= s )
+                success = true ;
+        }
+        
+        if ( success )
+            cout << "YES" << endl ;
+        else
+            cout << "NO" << endl ;
+        
+    }
+    
+    return 0 ;
+}
