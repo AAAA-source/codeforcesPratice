@@ -1,0 +1,55 @@
+想法：因為不需要連續相同，所以運用 greedy 思想，每個？就填入現在需要的字母即可
+最後將多餘的？改成 a 
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<algorithm>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+
+
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        string s , test ;
+        cin >> s ;
+        cin >> test ;
+        
+        decltype( test.size() ) cursor = 0 ;
+        decltype( s.size() ) now = 0 ;
+        while ( cursor < test.size() && now < s.size() ) {
+            if ( s[now] == '?' ) {
+                s[now] = test[cursor] ;
+                cursor++ ;
+            }
+            else if ( s[now] == test[cursor] )
+                cursor++ ;
+            
+            now++ ;
+        }
+        
+        for( decltype(s.size()) i = 0 ; i < s.size() ; i++ ) {
+            if ( s[i] == '?' )
+                s[i] = 'a' ;
+        }
+        
+        if ( cursor == test.size() ) {
+            cout << "YES" << endl ;
+            cout << s << endl ;
+        }
+        else
+            cout << "NO" << endl ;
+        
+    }
+    
+    return 0 ;
+}
