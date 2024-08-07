@@ -1,0 +1,57 @@
+想法：這題要運用greedy想法，先把其中一個數字變成0，再用這個數字與其他數字最配對，讓0 * 3 = 0 的特性發揮
+而採用最小的 l 變成 0 的話，需要讓l + 1 增加部分次數；經過數學推導，可以把結果改為前綴和相減再加上pow[l]（也就是增加的部分次數）
+
+fun fact：這題吃了幾次TLE，因為我以為不用前綴和就能過xdd
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<algorithm>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+
+
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        string s , test ;
+        cin >> s ;
+        cin >> test ;
+        
+        decltype( test.size() ) cursor = 0 ;
+        decltype( s.size() ) now = 0 ;
+        while ( cursor < test.size() && now < s.size() ) {
+            if ( s[now] == '?' ) {
+                s[now] = test[cursor] ;
+                cursor++ ;
+            }
+            else if ( s[now] == test[cursor] )
+                cursor++ ;
+            
+            now++ ;
+        }
+        
+        for( decltype(s.size()) i = 0 ; i < s.size() ; i++ ) {
+            if ( s[i] == '?' )
+                s[i] = 'a' ;
+        }
+        
+        if ( cursor == test.size() ) {
+            cout << "YES" << endl ;
+            cout << s << endl ;
+        }
+        else
+            cout << "NO" << endl ;
+        
+    }
+    
+    return 0 ;
+}
