@@ -1,0 +1,78 @@
+想法：因為只有可能是a , b 兩種數字，所以用暴力法把a 的數量從0 ... n 跑一次
+如果是excellent number在用Ｃ（n , i）算出方法數
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<algorithm>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+
+#define MOD 1000000007
+long long int fact[1000005] ;
+
+bool valid(long long int a , long long int b , long long int number)
+{
+    while ( number > 0 ) {
+        if ( number % 10 != a && number % 10 != b )
+            return false ;
+        number /= 10 ;
+    }
+    
+    return true ;
+}
+
+long long int inverse( long long int n )
+{
+    // find n^(mod - 2)
+    
+    long long int now = 1 ;
+    long long int power= MOD - 2 ;
+    while ( power > 0 ) {
+        if ( power % 2 == 1 ) {
+            now *= n ;
+            now %= MOD ;
+            --power ;
+        }
+        
+        power /= 2 ;
+        n = (n * n ) % MOD ;
+    }
+    
+    return now ;
+}
+
+long long int C( long long int n , long long int k )
+{
+    if ( n < k )
+        return 0 ;
+    
+    return ( fact[n] * inverse(( fact[k] * fact[n - k]  ) % MOD ) ) % MOD ;
+}
+
+int main(void)
+{
+    long long int a , b , n ;
+    cin >> a >> b >> n ;
+    
+    fact[0] = 1 ;
+    for(int i = 1 ; i < 1000005 ; i++) {
+        fact[i] = ( fact[i - 1] * i ) % MOD ;
+    }
+    
+    long long int sum = 0 ;
+    for( long long int i = 0 ; i <= n ; i++ ) {
+        if ( valid(a , b , a * i + b * (n - i)) ) {
+            sum += C(n , i) ;
+            sum %= MOD ;
+        }
+    }
+    
+    cout << sum << endl ;
+    
+    return 0 ;
+}
