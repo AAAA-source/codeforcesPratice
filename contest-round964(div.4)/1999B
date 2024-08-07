@@ -1,0 +1,40 @@
+想法：總共會有四種情況，各自判斷即可
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<algorithm>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+
+
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        int a[2] , b[2] ;
+        cin >> a[0] >> a[1] >> b[0] >> b[1] ;
+        
+        int way = 0 ;
+        if ( (a[0] > b[0] && a[1] >= b[1]) || (a[0] >= b[0] && a[1] > b[1]) )
+            way++ ;
+        if (( a[1] > b[0] && a[0] >= b[1] ) || ( a[1] >= b[0] && a[0] > b[1] ))
+            way++ ;
+        if (( a[0] > b[1] && a[1] >= b[0] ) ||  ( a[0] >= b[1] && a[1] > b[0] ) )
+            way++ ;
+        if (( a[1] > b[1] && a[0] >= b[0] ) ||  ( a[1] >= b[1] && a[0] > b[0] ) )
+            way++ ;
+        
+        cout << way <<endl ;
+    }
+    
+    
+    return 0 ;
+}
