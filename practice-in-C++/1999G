@@ -1,0 +1,55 @@
+想法：因為是判斷 l * r 會是 l * r、l * (r + 1)、(l + 1) * (r + 1) 的哪一種，所以很明顯是三分搜尋法的題目
+只需各自判斷即可
+
+fun fact：這題在contest有拆成G1、G2，實際上G1可以用二分搜尋法，但我一開始就想到三分搜尋法的解法，所以把兩題放在一起
+fun fact：這題在contest當下只差一步之遙就解出來，忘記中間要把l、r都改動:)
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<algorithm>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+using std::ios ;
+
+#define MOD 1000000007
+
+int main(void)
+{
+    //ios::sync_with_stdio(false);
+    //cin.tie(nullptr);
+    
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        int l = 2 , r = 999 ;
+        while ( l < r ) {
+            int a = (r + 2 * l) / 3 ;
+            int b = (2 * r + l) / 3 ;
+            cout << "? " << a << ' ' << b << endl ;
+
+            int temp ;
+            cin >> temp ;
+            if ( temp == (a * b) ) {
+                l = b + 1 ;
+            }
+            else if ( temp == ( a * (b + 1) ) ) {
+                r = b ;
+                l = a + 1 ;
+            }
+            else if ( temp == (a + 1) * (b + 1) )
+                r = a ;
+                
+        }
+
+        cout << "! " << r << endl ;
+
+    }
+    
+    return 0 ;
+}
