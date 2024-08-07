@@ -1,0 +1,77 @@
+想法：此題為排列組合的題目，只要求出從k/2 + 1 到第k個位置可以有多少方法即可
+而每個位置會有選0的方法 * 選1的方法
+
+fun fact：我覺得這題最難的是實作 C ，這是我第一次實作有mod的版本
+要運用費馬小定理、快速冪算法以達成
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<algorithm>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+using std::ios ;
+
+#define MOD 1000000007
+
+long long int fact[200005] ;
+
+long long int pw(long long int a , long long int b)
+{
+    long long int r = 1 ;
+    while ( b > 0 ) {
+        if ( b & 1 )
+            r =( r * a ) % MOD ;
+        
+        b /= 2 ;
+        a = (a * a) % MOD ;
+    }
+    return r ;
+}
+
+long long int C( long long int n , long long int k )
+{
+    if ( n < k )
+        return 0 ;
+    return ( fact[n] * pw( (fact[n - k] * fact[k]) % MOD , MOD - 2 ) ) % MOD ;
+    
+}
+
+int main(void)
+{
+    //ios::sync_with_stdio(false);
+    //cin.tie(nullptr);
+    
+    int t ;
+    cin >> t ;
+    
+    fact[0] = 1 ;
+    for(int i = 1 ; i < 200005 ; i++)
+        fact[i] = (fact[i - 1] * i) % MOD ;
+    
+    while (t--) {
+        int n , k ;
+        cin >> n >> k ;
+        int count = 0 ;
+        for(int i = 0 ; i < n ; i++) {
+            int temp ;
+            cin >> temp ;
+            if ( temp == 1 )
+                count++ ;
+        }
+        
+        long long int sum = 0 ;
+        for(int i = k / 2 + 1 ; i <= std::min(count , k) ; i++ ) {
+            sum += (C( count , i  ) * C( n - count , k - i )) % MOD  ;
+            sum %= MOD ;
+        }
+        
+        cout << sum << endl ;
+    }
+    
+    return 0 ;
+}
