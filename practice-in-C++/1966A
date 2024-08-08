@@ -1,0 +1,56 @@
+想法：可先計算出會有多少可變的牌，接著在用greedy思想，把剩餘的牌排序，將可運用的牌結合剩餘最多的牌
+計算最多可以做幾次operation，輸出 n - #operations 即可
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<algorithm>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    while (t--) {
+        int n , k ;
+        cin >> n >> k ;
+        vector<int> count(105 , 0) ;
+        int use = 0 ;
+        int turn = 0 ;
+        for(int i = 0 ; i < n ; ++i) {
+            int temp ;
+            cin >> temp ;
+            
+            ++count[temp] ;
+            if ( count[temp] >= k ) {
+                ++turn ;
+                use += k - 1 ;
+                count[temp] -= k ;
+            }
+        }
+        
+        std::sort( count.begin() , count.end() , std::greater<int>() ) ;
+        for( int i = 0 ; i < 105 && count[i] != 0 ; ++i ) {
+            if ( count[i] + use >= k ) {
+                use -= k - count[i] ;
+                count[i] = 0 ;
+                ++turn ;
+                use += k - 1 ;
+            }
+        }
+        
+        if ( use >= k )
+            turn += (use - k + 1) ;
+        
+        
+        cout << n - turn << endl ;
+    }
+    
+    
+    return 0 ;
+}
