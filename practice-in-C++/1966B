@@ -1,0 +1,99 @@
+想法：可發現只要四邊之中都有黑色（白色），就可以填滿整個矩陣
+反之，如果有一邊是純色的話，怎麼做都不可能把那邊改成另一顏色
+所以只要找出四邊是否都有黑/白色即可
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<algorithm>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    while (t--) {
+        int n , m ;
+        cin >> n >> m ;
+        
+        vector< string > array(n) ;
+        for(int i = 0 ; i < n ; i++)
+            cin >> array[i] ;
+        
+        
+        // check white
+        bool success = true ;
+        bool appear = false ;
+        for(int i = 0 ; i < m ; i++) {
+            if ( array[0][i] == 'W' )
+                appear = true ;
+        }
+        success = success && appear ;
+        
+        appear = false ;
+        for(int i = 0 ; i < n ; i++) {
+            if ( array[i][0] == 'W' )
+                appear = true ;
+        }
+        success = success && appear ;
+        
+        appear = false ;
+        for(int i = 0 ; i < m ; i++) {
+            if ( array[n - 1][i] == 'W' )
+                appear = true ;
+        }
+        success = success && appear ;
+        
+        appear = false ;
+        for(int i = 0 ; i < n ; i++ ) {
+            if ( array[i][m - 1] == 'W' )
+                appear = true ;
+        }
+        success = success && appear ;
+        
+        // check black
+        bool success2 = true ;
+        bool appear2 = false ;
+        for(int i = 0 ; i < m ; i++) {
+            if ( array[0][i] == 'B' )
+                appear2 = true ;
+        }
+        success2 = success2 && appear2 ;
+        
+        appear2 = false ;
+        for(int i = 0 ; i < n ; i++) {
+            if ( array[i][0] == 'B' )
+                appear2 = true ;
+        }
+        success2 = success2 && appear2 ;
+        
+        appear2 = false ;
+        for(int i = 0 ; i < m ; i++) {
+            if ( array[n - 1][i] == 'B' )
+                appear2 = true ;
+        }
+        success2 = success2 && appear2 ;
+        
+        appear2 = false ;
+        for(int i = 0 ; i < n ; i++ ) {
+            if ( array[i][m - 1] == 'B' )
+                appear2 = true ;
+        }
+        success2 = success2 && appear2 ;
+        
+        if ( success || success2 )
+            cout << "YES" << endl ;
+        else
+            cout << "NO" << endl ;
+        
+        
+    }
+    
+    
+    return 0 ;
+}
