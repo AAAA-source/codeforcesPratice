@@ -1,0 +1,55 @@
+想法：只要每次紀錄要比較的值即可，運用 greedy 思想，如果二位數可以 split 就盡量 split ，以保證 now 最小
+
+#include<stdio.h>
+#include<stdbool.h>
+
+int main(void)
+{
+    int t ;
+    scanf("%d" , &t) ;
+    
+    while (t--) {
+        int n ;
+        scanf("%d" , &n ) ;
+        int array[100] ;
+        for(int i = 0 ; i < n ; i++)
+            scanf("%d" , &(array[i]) ) ;
+        
+        int now = -1 ;
+        bool flag = false ;
+        for(int i = 0 ; !flag && i < n ; i++) {
+            if ( array[i] < 10 ) {
+                if ( array[i] >= now ) {
+                    now = array[i] ;
+                }
+                else {
+                    flag = true ;
+                }
+            }
+            else {
+                if ( array[i] / 10 <= array[i] % 10 && now <= array[i] / 10  ) {
+                    now = array[i] % 10 ;
+                }
+                else {
+                    if ( array[i] >= now ) {
+                        now = array[i] ;
+                    }
+                    else {
+                        flag = 1 ;
+                    }
+                }
+            }
+            //printf("now is %d \n" , now ) ;
+        }
+        
+        if ( !flag  )
+            printf("YES\n") ;
+        else
+            printf("NO\n") ;
+        
+    }
+    
+    
+    
+    return 0 ;
+}
