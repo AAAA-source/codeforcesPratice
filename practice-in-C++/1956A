@@ -1,0 +1,56 @@
+想法：只要序列數量大於第一個會刪掉的元素，那麼序列一定會被刪減到 a1 - 1 的長度
+所以只要輸出min( 序列長度 , a1 - 1 )即可
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<algorithm>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+
+bool all_same( vector<long long int> *a )
+{
+    vector<long long int> &array = *a ;
+    for(int i = 0 ; i < array.size() ; i++) {
+        if ( array[i] % 2 != array[0] % 2  )
+            return false ;
+    }
+    
+    return true ;
+}
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    
+    while( t-- ) {
+        int k , q ;
+        cin >> k >> q ;
+        
+        vector<int> v ;
+        for(int i = 0 ; i < k ; i++) {
+            int temp ;
+            cin >> temp ;
+            v.push_back(temp) ;
+        }
+        
+        int min = v[0] ;
+        for(int i = 0 ; i < q ; i++) {
+            int temp ;
+            cin >> temp ;
+            
+            cout << std::min(temp , min - 1 ) << ' '  ;
+        }
+        
+        
+        cout << endl ;
+    }
+    
+    
+    return 0 ;
+}
