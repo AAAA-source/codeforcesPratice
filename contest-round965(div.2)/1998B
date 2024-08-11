@@ -1,0 +1,44 @@
+想法：為了要讓相等的子序列最少，最好的方法就是右移
+這樣只有可能有1種相等的子序列（就是選取1 ... n），其他任意子序列都不會相等
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<unordered_map>
+#include<map>
+#include<set>
+#include<unordered_set>
+#include<algorithm>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+using std::unordered_map ;
+
+
+int main (void)
+{
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        int n ;
+        cin >> n ;
+        
+        vector<int> v(n) ;
+        for( int i = 0 ; i < n ; i++ )
+            cin >> v[i] ;
+        
+        for(int i = 1 ; i < n ; i++) {
+            cout << v[i] << ' ' ;
+        }
+        cout << v[0] << endl ;
+        
+    }
+    
+    
+    
+    return 0 ;
+}
