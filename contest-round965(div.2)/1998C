@@ -1,0 +1,117 @@
+想法：這題只要考慮兩種情形
+1.選取所有數的最大值，在把operationa用在提升med(c)上面
+2.把所有operation用在最大的可動元素上，而med(c)不變：這樣可以確保所有k都有用
+
+而在第一點上，要怎麼判斷med(c)的大小就要用到binary search，去判斷是否可用 k 次operation將med(c)提升到x
+（k 次operation只會用在比 x 小且元素可動的情形）
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<unordered_map>
+#include<map>
+#include<set>
+#include<unordered_set>
+#include<algorithm>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+using std::unordered_map ;
+
+
+int main (void)
+{
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        long long int n , k ;
+        cin >> n >> k ;
+        
+        vector<std::pair<long long int , int>> v(n) ;
+        for(int i = 0 ; i < n ; i++) {
+            cin >> v[i].first ;
+        }
+        for( int i = 0 ; i < n ; i++ )
+            cin >> v[i].second ;
+        
+        std::sort( v.begin() , v.end() ) ;
+        // type 1 : choose the biggest one can change
+        long long int index = n - 1 ;
+        while ( index >= 0 && v[index].second == 0 )
+            --index ;
+        
+        
+        long long int result1 ;
+        if ( index < 0 )
+            result1 = -1 ;
+        else {
+            vector<long long int> c ;
+            for(int i = 0 ; i < n ; i++) {
+                if ( i != index )
+                    c.push_back(v[i].first) ;
+            }
+            
+            long long int ind = n / 2 - 1 ;
+            result1 = v[index].first + k + c[ind] ;
+            //cout << "result1 = " << result1 << endl ;
+        }
+        
+        long long int result2 ;
+        index = n - 1 ;
+        while ( index >= 0 && v[index].second == 1 )
+            --index ;
+        if ( index < 0)
+            result2 = -1 ;
+        else {
+            vector<std::pair<long long int , int>> c ;
+            for(int i = 0 ; i < n ; i++) {
+                if ( i != index )
+                    c.push_back(v[i]) ;
+            }
+            //cout << "number = " << (c.size() + 1) / 2 << endl ;
+            long long target = c.size() - (c.size() - 1) / 2 ;
+            
+            long long int l = 1 ;
+            long long int r = v[v.size() - 1].first + k ;
+            while ( l < r ) {
+                long long int m = (l + r + 1) / 2 ;
+                bool success = false ;
+                long long int count = 0 ;
+                long long int cost = 0 ;
+                for(long long int i = c.size() - 1 ;count < target && i >= 0 ; i-- ) {
+                    if ( c[i].first >= m ) {
+                        count++ ;
+                    }
+                    else if ( c[i].second == 0 ) {
+                        continue ;
+                    }
+                    else {
+                        cost += ( m - c[i].first ) ;
+                        count++ ;
+                    }
+                }
+                
+                if ( count >= target && cost <= k )
+                    success = true ;
+                
+                if ( success )
+                    l = m ;
+                else
+                    r = m - 1 ;
+            }
+            
+            result2 = v[index].first + r ;
+            //cout << "result2 = " << result2 << endl ;
+        }
+        
+        cout << std::max(result1 , result2) << endl ;
+    }
+    
+    
+    
+    return 0 ;
+}
