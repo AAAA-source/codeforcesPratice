@@ -1,0 +1,54 @@
+想法：最差只要三張邀請函就一定會有兩個朋友參加( 邀請 A , A's best friend , who best friend is A )
+但如果有兩個人互相是best friend 就只要兩張邀請函，所以找尋是否有互為best friend 的情況即可
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<unordered_map>
+#include<map>
+#include<set>
+#include<unordered_set>
+#include<algorithm>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+using std::unordered_map ;
+
+
+int main (void)
+{
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        int n ;
+        cin >> n ;
+        
+        vector<int> p ;
+        for(int i = 0 ; i < n ; i++) {
+            int temp ;
+            cin >> temp ;
+            p.push_back(temp) ;
+        }
+        
+        bool flag = false ;
+        for( int i = 0 ; i < p.size() ; i++ ) {
+            if ( p[p[i] - 1] - 1 == i )
+                flag = true ;
+        }
+        
+        if ( flag )
+            cout << 2 << endl ;
+        else
+            cout << 3 << endl ;
+        
+        
+    }
+    
+    
+    
+    return 0 ;
+}
