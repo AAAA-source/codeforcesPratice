@@ -1,0 +1,59 @@
+想法：只要有任一元素Alice刪掉後，Bob沒辦法找到相同的元素刪掉
+那麼Alice只要保留Bob刪掉的元素即可獲勝
+換言之，Bob要贏就只有可能 a == b 或是 a == reverse(b) 而已
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<unordered_map>
+#include<map>
+#include<set>
+#include<unordered_set>
+#include<algorithm>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+using std::unordered_map ;
+
+
+int main (void)
+{
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        int n ;
+        cin >> n ;
+        
+        vector<int> a ;
+        vector<int> b ;
+        for(int i = 0 ; i < n ; i++) {
+            int temp ;
+            cin >> temp ;
+            a.push_back(temp) ;
+        }
+        for(int i = 0 ; i < n ; i++) {
+            int temp ;
+            cin >> temp ;
+            b.push_back(temp) ;
+        }
+        
+        vector<int> b_reverse ;
+        for(auto i = b.size() - 1 ; i < b.size() && i >= 0 ; i--)
+            b_reverse.push_back(b[i]) ;
+        
+        if (a == b || a == b_reverse)
+            cout << "Bob" << endl ;
+        else
+            cout << "Alice" << endl ;
+        
+        
+    }
+    
+    
+    
+    return 0 ;
+}
