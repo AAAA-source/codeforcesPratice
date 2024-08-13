@@ -1,0 +1,69 @@
+想法：因為Bob只有可能獲取右上部分或是左下部分的硬幣，所以只要traverse一次從Alice從 0 ... n 往下的情形即可
+因為Alice想要minize Bob的分數，所以我們只要紀錄最糟情況下可得多少硬幣即可
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<unordered_map>
+#include<map>
+#include<set>
+#include<unordered_set>
+#include<algorithm>
+#include<stdexcept>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+using std::unordered_map ;
+using std::unordered_set ;
+
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    while ( t-- ) {
+        int m ;
+        cin >> m ;
+        vector<int> a(m) ;
+        for(int i = 0 ; i < m ; i++)
+            cin >> a[i] ;
+        vector<int> b(m) ;
+        for(int i = 0 ; i < m ; i++)
+            cin >> b[i] ;
+        
+        if ( m == 1 ) {
+            cout << 0 << endl ;
+            continue ;
+        }
+        
+        vector<int> sum_a(m) ;
+        sum_a[0] = a[0] ;
+        for(int i = 1 ; i < m ; i++)
+            sum_a[i] = sum_a[i - 1] + a[i] ;
+        
+        vector<int> sum_b(m) ;
+        sum_b[0] = b[0] ;
+        for(int i = 1 ; i < m ; i++)
+            sum_b[i] = sum_b[i - 1] + b[i] ;
+        
+        int min = INT_MAX ;
+        for( int i = 0 ; i < m ; i++ ) {
+            int count = 0 ;
+            if ( i - 1 >= 0 )
+                count = sum_b[i - 1] ;
+            count = std::max( sum_a[m - 1] - sum_a[i] , count ) ;
+            
+            min = std::min(min , count) ;
+            //cout << i << " " << count << endl ;
+        }
+
+        cout << min << endl  ;
+    }
+    
+    
+    
+    return 0 ;
+}
