@@ -1,0 +1,60 @@
+想法：把每個元素都存在unorder_map裡，以(number , appear time) 來紀錄出現次數
+在找出最小的元素，配合c , d 構建正確的值並一一查看是否全部都符合
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<unordered_map>
+#include<map>
+#include<set>
+#include<unordered_set>
+#include<algorithm>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+using std::unordered_map ;
+using std::unordered_set ;
+
+
+int main (void)
+{
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        int n , c , d ;
+        cin >> n >> c >> d ;
+        
+        unordered_map<long long int , int> appear ;
+        long long int min = INT_MAX ;
+        for(int i = 0 ; i < n * n ; i++) {
+            long long int temp ;
+            cin >> temp ;
+            min = std::min(min , temp) ;
+            appear[temp] = appear[temp] + 1 ;
+        }
+        bool success = true ;
+        for(int i = 0 ; i < n ; i++ ) {
+            for(int j = 0 ; j < n ; j++) {
+                long long int now = min + c * i + d * j ;
+                if ( appear.find(now) == appear.end() || appear.find(now)->second == 0  )
+                    success = false ;
+                else
+                    (appear.find(now)->second)-- ;
+            }
+        }
+        
+        if (success)
+            cout << "YES" << endl ;
+        else
+            cout << "NO" << endl ;
+        
+    }
+    
+    
+    
+    return 0 ;
+}
