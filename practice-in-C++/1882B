@@ -1,0 +1,68 @@
+想法：因為Ｓ跟宇集合不同，所以一定有至少一個元素缺失；那麼我們先找出宇集合
+然後遍歷每個元素（假設缺少這個元素），去算出剩餘set最大可能的與集合
+意即，把每個沒有該個元素的set都 union ，去算出最大可能數
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<unordered_map>
+#include<map>
+#include<set>
+#include<unordered_set>
+#include<algorithm>
+#include<stdexcept>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+using std::unordered_map ;
+using std::unordered_set ;
+
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    while ( t-- ) {
+        vector< unordered_set<int> > total ;
+        int n ;
+        cin >> n ;
+        
+        unordered_set<int> u ;
+        for(int i = 0 ; i < n ; ++i) {
+            int number ;
+            cin >> number ;
+            unordered_set<int> count ;
+            for(int j = 0 ; j < number ; j++) {
+                int temp ;
+                cin >> temp ;
+                count.insert(temp) ;
+            }
+            total.push_back(count) ;
+            u.insert(count.begin() , count.end()) ;
+        }
+        
+        int max = 0 ;
+        for( auto iter = u.begin() ; iter != u.end() ; ++iter ) {
+            // make iter element not in set
+            
+            unordered_set<int> record ;
+            for( decltype(total.size()) i = 0 ; i != total.size() ; i++ ) {
+                if ( total[i].count(*iter) != 0 )
+                    continue ;
+                
+                record.insert( total[i].begin() , total[i].end() ) ;
+            }
+
+            max = std::max( max , (int)record.size() ) ;
+        }
+        
+        cout << max << endl ;
+    }
+    
+    
+    
+    return 0 ;
+}
