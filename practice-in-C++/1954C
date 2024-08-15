@@ -1,0 +1,66 @@
+想法：因為兩數之和不變，所以要盡量讓兩數越接近越好，這樣乘積越大
+用x_bigger紀錄x 是否比y 大，只要一有數字是x 較大，其餘較大數字都要給y
+
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<unordered_map>
+#include<map>
+#include<set>
+#include<unordered_set>
+#include<algorithm>
+#include<stdexcept>
+#include<cmath>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+using std::unordered_map ;
+using std::unordered_set ;
+using std::pair ;
+
+#define MOD 998244353
+
+void swap(char& a , char& b)
+{
+    char temp = a;
+    a = b ;
+    b = temp ;
+    return ;
+}
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        string x , y ;
+        cin >> x >> y ;
+        bool x_bigger = false ;
+        for(int i = 0 ; i < x.length() ; i++) {
+            if ( x[i] == y[i] )
+                continue ;
+            
+            if ( !x_bigger ) {
+                if ( x[i] < y[i] )
+                    swap(x[i] , y[i]) ;
+                
+                x_bigger = true ;
+            }
+            else {
+                if ( x[i] > y[i] )
+                    swap(x[i] , y[i]) ;
+            }
+            
+        }
+        
+        cout << x << endl ;
+        cout << y << endl ;
+    }
+    
+    return 0 ;
+}
