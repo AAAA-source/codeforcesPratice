@@ -1,0 +1,78 @@
+想法：T-prime 就是某質數的平方，因為數字的範圍會到10^12，所以建立質數表紀錄小於等於10^6的質數
+接著，採用「離線」的方法，先紀錄每個元素原本的位置，再排序後用cursor代表大於等於 sqrt(a[i])的質數
+如果確實是該質數的平方的話，就紀錄true ，並在answer array上紀錄（也就是按照原本順序的陣列），最後輸出依序輸出answer內容即可
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<unordered_map>
+#include<map>
+#include<set>
+#include<unordered_set>
+#include<algorithm>
+#include<stdexcept>
+#include<cmath>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+using std::unordered_map ;
+using std::unordered_set ;
+using std::pair ;
+
+bool not_prime[1000005] ;
+bool answer[100005] ;
+
+bool my_compare( pair< int ,pair<long long int , bool>> a , pair< int ,pair<long long int , bool>> b )
+{
+    // what condition should swap
+    if ( a.second.first < b.second.first )
+        return true ;
+    else
+        return false ;
+}
+
+int main(void)
+{
+    // make prime table
+    for(int i = 2 ; i <= 1000000 ; i++) {
+        if ( not_prime[i] )
+            continue ;
+        for(int j = 2 * i ; j <= 1000000 ; j += i)
+            not_prime[j] = true ;
+    }
+    
+    int n ;
+    cin >> n ;
+    vector< pair< int ,pair<long long int , bool>> > a(n) ;
+    for(int i = 0 ; i < n ; i++) {
+        cin >> a[i].second.first ;
+        a[i].second.second = false ;
+        a[i].first = i ;
+    }
+    std::sort( a.begin() , a.end() , my_compare ) ;
+    
+    long long int cursor = 2 ;
+    for(int i = 0 ; i < a.size() ; i++) {
+        while ( cursor * cursor < a[i].second.first ) {
+            cursor++ ;
+            while ( not_prime[cursor] )
+                cursor++ ;
+        }
+        if ( a[i].second.first == cursor * cursor )
+            a[i].second.second = true ;
+        
+        answer[ a[i].first ] = a[i].second.second ;
+    }
+    
+    for(int i = 0 ; i < n ; i++) {
+        cout << ((answer[i] == true)? "YES" : "NO") << endl ;
+    }
+    
+    
+    
+    
+    return 0 ;
+}
