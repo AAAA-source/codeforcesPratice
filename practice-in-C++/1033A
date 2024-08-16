@@ -1,0 +1,44 @@
+想法：因為皇后會把棋盤分成四等分，而只有國王跟終點在同一個區域才有可能；所以只要檢查是否在同一區域就好
+而斜線不會影響國王前進，因為國王可以略過斜線；故只需單純考慮row , column 即可
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<unordered_map>
+#include<map>
+#include<set>
+#include<unordered_set>
+#include<algorithm>
+#include<stdexcept>
+#include<cmath>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+using std::unordered_map ;
+using std::unordered_set ;
+using std::pair ;
+
+
+int main(void)
+{
+    int n ;
+    cin >> n ;
+    
+    int ax , ay ;
+    int bx , by ;
+    int cx , cy ;
+    cin >> ax >> ay ;
+    cin >> bx >> by ;
+    cin >> cx >> cy ;
+    
+    if ( (std::min(bx , cx) <= ax && std::max(bx , cx) >= ax ) || (std::min(by , cy) <= ay && std::max(by , cy) >= ay ) )
+        cout << "NO" << endl ;
+    else
+        cout << "YES" << endl ;
+   
+
+    return 0 ;
+}
