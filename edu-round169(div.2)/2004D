@@ -1,0 +1,138 @@
+想法：總共有六種城市，而任兩個城市只要不能直接到達，必然可以透過剩下四種城市到達
+所以只要把城市歸類在六種顏色裡面，需要時查找最接近的城市即可
+
+fact:這題我debug超久因為要考慮有可能目標城市比min(a , b )小的情況
+
+技巧：std::lower_bound( array.begin() , array.end() , 目標數字 )
+使用內建的二分搜尋法查找不小於 a 的第一個元素，要求array必須是sorted的，否則結果不正確
+如果有找到的話會傳該元素的指標，否則回傳 array.end()
+用法：auto iter = std::lower_bound( total[i].begin() , total[i].end() , a ) ;
+
+與之相似的還有 std::upper_bound 則是找第一個大於目標數字的元素
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<unordered_map>
+#include<map>
+#include<set>
+#include<unordered_set>
+#include<algorithm>
+#include<stdexcept>
+#include<cmath>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+using std::unordered_map ;
+using std::unordered_set ;
+using std::pair ;
+
+#define MOD 998244353
+
+void swap(int& a , int& b)
+{
+    int temp = a ;
+    a = b ;
+    b = temp ;
+    return ;
+}
+
+int category(string  s)
+{
+    if ( s == "BG" )
+        return 0 ;
+    else if ( s == "BR" )
+        return 1 ;
+    else if ( s == "BY" )
+        return 2 ;
+    else if ( s == "GR" )
+        return 3 ;
+    else if ( s == "GY" )
+        return 4 ;
+    else
+        return 5 ;
+}
+
+int my_abs(int x)
+{
+    if (x < 0)
+        return -x ;
+    else
+        return x ;
+}
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        int n , q ;
+        cin >> n >> q ;
+        vector<int> city(n + 5) ;
+        vector<vector<int> > total(6) ;
+        
+        for(int i = 1 ; i <= n ; i++) {
+            string temp ;
+            cin >> temp ;
+            
+            city[i] = category(temp) ;
+            
+            total[ city[i] ].push_back(i) ;
+        }
+        
+        for(int i = 0 ; i < q ; i++) {
+            int a , b ;
+            cin >> a >> b ;
+            
+            if ( a == b ) {
+                cout << 0 << endl ;
+                continue ;
+            }
+            if ( a > b )
+                swap(a , b) ;
+            
+            if ( city[a] + city[b] != 5 ) {
+                cout << b - a << endl ;
+                continue ;
+            }
+            
+            int min = INT_MAX ;
+            bool find = false ;
+            for(int i = 0 ; i < 6 ; i++) {
+                if ( i == city[a] || i == city[b] || total[i].empty() )
+                    continue ;
+                
+                auto iter = std::lower_bound( total[i].begin() , total[i].end() , a ) ;
+                if ( iter != total[i].end() ) {
+                    min = std::min( min , my_abs(*iter - a) + my_abs(b - *iter) ) ;
+                    find = true ;
+                }
+                //cout << "this is category " << i << endl ;
+                //cout << "the candidate is " << total[i][ total[i].size() - 1 ] << endl ;
+                min = std::min ( min , my_abs(a - total[i][ total[i].size() - 1 ])
+                            + my_abs( b - total[i][ total[i].size() - 1] ) ) ;
+                find = true ;
+                if ( iter != total[i].end() && iter != total[i].begin() ) {
+                    iter-- ;
+                    min = std::min( min , my_abs(*iter - a) + my_abs(b - *iter) ) ;
+                    find = true ;
+                }
+            }
+            
+            if ( !find )
+                cout << -1 << endl ;
+            else
+                cout << min << endl ;
+            
+        }
+        
+        
+    }
+
+
+    return 0 ;
+}
