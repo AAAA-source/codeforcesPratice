@@ -1,0 +1,60 @@
+想法：只要照著跑一次，因為Alice 一定是拿最大的，Bob則是拿次大的；那每一回就是讓Bob可以增加直到第二大等於第一大，或是 k 用完即可
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<unordered_map>
+#include<map>
+#include<set>
+#include<unordered_set>
+#include<algorithm>
+#include<stdexcept>
+#include<cmath>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+using std::unordered_map ;
+using std::unordered_set ;
+using std::pair ;
+
+#define MOD 998244353
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        long long int n , k ;
+        cin >> n >> k ;
+        vector<long long int> a(n) ;
+        for(int i = 0 ;i < n ; i++)
+            cin >> a[i] ;
+        
+        std::sort(a.begin() , a.end()) ;
+        long long int A = 0 , B = 0 ;
+        bool now = false ;
+        for(long long int i =  n - 1; i >= 0 ; i--) {
+            if ( !now )
+                A += a[i] ;
+            else {
+                long long int less = a[i + 1] - a[i] ;
+                B += a[i] ;
+                if ( k > 0 ) {
+                    B += std::min(less , k ) ;
+                    k -= std::min(less , k) ;
+                }
+            }
+            
+            now = !now ;
+        }
+        
+        cout << A - B << endl ;
+    }
+
+
+    return 0 ;
+}
