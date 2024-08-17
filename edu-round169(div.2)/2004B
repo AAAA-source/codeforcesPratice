@@ -1,0 +1,47 @@
+想法：只要判斷兩個出現的範圍是否頭或尾相同，如果沒有相同的話就要多關一扇門（調整start , end ）
+在start 到end的所有門都要關，否則就會不合規則
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<unordered_map>
+#include<map>
+#include<set>
+#include<unordered_set>
+#include<algorithm>
+#include<stdexcept>
+#include<cmath>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+using std::unordered_map ;
+using std::unordered_set ;
+using std::pair ;
+
+#define MOD 998244353
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        std:pair<int, int> a , b;
+        cin >> a.first >> a.second >> b.first >> b.second ;
+        
+        if ( a.second < b.first || b.second < a.first ) {
+            cout << 1 << endl ;
+            continue;
+        }
+        
+        int start = (a.first == b.first)? a.first + 1 : std::max(a.first , b.first) ;
+        int end = (a.second == b.second)? a.second : std::min( a.second , b.second ) + 1 ;
+        cout << end - start + 1 << endl ;
+    }
+
+
+    return 0 ;
+}
