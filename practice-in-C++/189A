@@ -1,0 +1,47 @@
+想法：經典dp 問題，唯一要注意的是如果無法被組成的話記成 0 ， 其餘則是 dp[i] = max( dp[i - a] , dp[i - b] , dp[i - c] ) + 1 , 所有i - a , i - b , i - c 也同樣可以被a , b , c 組成
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<unordered_map>
+#include<map>
+#include<set>
+#include<unordered_set>
+#include<algorithm>
+#include<stdexcept>
+#include<cmath>
+#include<utility>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+using std::unordered_map ;
+using std::unordered_set ;
+using std::pair ;
+using std::max ;
+using std::min ;
+
+int main(void)
+{
+    int n , a , b , c ;
+    cin >> n >> a >> b >> c ;
+    vector<int> pieces(n + 5) ;
+    
+    for(int i = 1 ; i <= n ; i++) {
+        if ( i - a == 0 || (i > a && pieces[i - a] > 0) )
+            pieces[i] = max( pieces[i] , pieces[i - a] + 1 ) ;
+        
+        if ( i - b == 0 || (i > b && pieces[i - b] > 0) )
+            pieces[i] = max( pieces[i] , pieces[i - b] + 1 ) ;
+        
+        if ( i - c == 0 || (i > c && pieces[i - c] > 0) )
+            pieces[i] = max( pieces[i] , pieces[i - c] + 1 ) ;
+    }
+    
+    
+    cout << pieces[n] << endl ;
+    
+    return 0 ;
+}
