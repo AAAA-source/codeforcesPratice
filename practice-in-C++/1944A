@@ -1,0 +1,43 @@
+想法：如果能一次把 n - 1 個橋斷掉，結果就是 1 ；反之則任何一個島都無法斷聯，輸出 n 
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<unordered_map>
+#include<map>
+#include<set>
+#include<unordered_set>
+#include<algorithm>
+#include<stdexcept>
+#include<cmath>
+#include<utility>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+using std::unordered_map ;
+using std::unordered_set ;
+using std::pair ;
+
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        int n , k ;
+        cin >> n >> k ;
+        
+        if ( k >= n - 1 )
+            cout << 1 << endl ;
+        else
+            cout << n << endl ;
+        
+    }
+   
+
+    return 0 ;
+}
