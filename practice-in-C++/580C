@@ -1,0 +1,80 @@
+想法：直接DFS尋找答案，唯一要注意的就是root 也有可能只有一條edge ，所以判斷是不是leaf 要用 now != 1 && vertices[now].edges.size() == 1
+
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<unordered_map>
+#include<map>
+#include<set>
+#include<unordered_set>
+#include<algorithm>
+#include<stdexcept>
+#include<cmath>
+#include<utility>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+using std::unordered_map ;
+using std::unordered_set ;
+using std::pair ;
+using std::max ;
+using std::min ;
+
+struct node{
+    bool have_cat ;
+    vector<int> edges ;
+} ;
+typedef struct node Node ;
+
+int DFS( vector<Node> &vertices , int now , int parent ,int consecutive_cat , int m)
+{
+    //cout << "now visited " << now << endl ;
+    
+    int cats = (vertices[now].have_cat == true)? consecutive_cat + 1 : 0 ;
+    if ( cats > m )
+        return 0 ;
+    if ( now != 1 && vertices[now].edges.size() == 1 )
+        return 1 ;
+    
+    int count = 0 ;
+    for ( auto &i : vertices[now].edges ) {
+        if ( i == parent )
+            continue ;
+        
+        count += DFS(vertices , i , now , cats , m) ;
+    }
+    return count ;
+}
+
+int main(void)
+{
+    int n , m ;
+    cin >> n >> m ;
+    
+    vector<Node> vertices(n + 5) ;
+    for(int i = 1 ; i <= n ; i++) {
+        int temp ;
+        cin >> temp ;
+        if ( temp == 1 )
+            vertices[i].have_cat = true ;
+        else
+            vertices[i].have_cat = false ;
+    }
+    
+    for(int i = 0 ; i < n - 1 ; i++) {
+        int a , b ;
+        cin >> a >> b ;
+        
+        vertices[a].edges.push_back(b) ;
+        vertices[b].edges.push_back(a) ;
+    }
+    
+    
+    cout << DFS(vertices, 1, 0, 0 , m) << endl ;
+    
+    return 0 ;
+}
