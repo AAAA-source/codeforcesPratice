@@ -1,0 +1,84 @@
+想法：試著把原來的數字陣列轉換為匹配字串，方法是
+1.如果該數字之前沒有出現過，就現有字串的相同位置字元；但如果該字元之前已經出現過，則匹配失敗
+2.如果該數字之前出現過，就填入之前出現的字元
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<unordered_map>
+#include<map>
+#include<set>
+#include<unordered_set>
+#include<algorithm>
+#include<stdexcept>
+#include<cmath>
+#include<utility>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+using std::unordered_map ;
+using std::unordered_set ;
+using std::pair ;
+using std::max ;
+using std::min ;
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        int n ;
+        cin >> n ;
+        vector<int> array(n) ;
+        unordered_map< int , vector<int> > match ;
+        for(int i = 0 ; i < n ; i++) {
+            cin >> array[i] ;
+        }
+        
+        int m ;
+        cin >> m ;
+        for(int j = 0 ; j < m ; j++) {
+            string s ;
+            cin >> s ;
+            
+            if ( s.length() != n ) {
+                cout << "NO" << endl ;
+                continue ;
+            }
+            
+            unordered_map<int , char> match ;
+            string temp ;
+            vector<bool> appear(128) ;
+            for(int i = 0 ; i < n ; i++) {
+                if ( match.find(array[i]) == match.end() ) {
+                    // new letter
+                    if ( !appear[ s[i] ] )
+                        match[ array[i] ] = s[i] ;
+                    else
+                        break ;
+                    
+                    appear[ s[i] ] = true ;
+                    temp += s[i] ;
+                }
+                else {
+                    temp += match[array[i]] ;
+                }
+                
+            }
+            
+            if ( temp == s )
+                cout << "YES" << endl ;
+            else
+                cout << "NO" << endl ;
+            
+        }
+        
+    }
+    
+    
+    return 0 ;
+}
