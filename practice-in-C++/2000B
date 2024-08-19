@@ -1,0 +1,62 @@
+想法：除了第一個人可以隨便做，其餘人都只能坐在"已坐過"的旁邊，所以在第一個人入座後，用start , end 紀錄可以坐的位置即可
+意即，start and end 中間夾的就是已經被坐了的位置
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<unordered_map>
+#include<map>
+#include<set>
+#include<unordered_set>
+#include<algorithm>
+#include<stdexcept>
+#include<cmath>
+#include<utility>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+using std::unordered_map ;
+using std::unordered_set ;
+using std::pair ;
+using std::max ;
+using std::min ;
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        int n ;
+        cin >> n ;
+        
+        vector<int> seat(n) ;
+        for(int i = 0 ; i < n ; i++)
+            cin >> seat[i] ;
+        
+        int start = seat[0] - 1 ;
+        int end = seat[0] + 1 ;
+        
+        bool success = true ;
+        for(int i = 1 ;success && i < n ; i++) {
+            if ( seat[i] != start && seat[i] != end )
+                success = false ;
+            else if ( seat[i] == start )
+                start-- ;
+            else
+                end++ ;
+        }
+        
+        if (success)
+            cout << "YES" << endl ;
+        else
+            cout << "NO" << endl ;
+        
+    }
+    
+    
+    return 0 ;
+}
