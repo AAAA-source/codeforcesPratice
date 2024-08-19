@@ -1,0 +1,49 @@
+想法：直接判斷就可以，先判斷前兩位是不是10 
+接著指數部分要注意不能是 0 , 1 , 或 0 開頭的數字
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<unordered_map>
+#include<map>
+#include<set>
+#include<unordered_set>
+#include<algorithm>
+#include<stdexcept>
+#include<cmath>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+using std::unordered_map ;
+using std::unordered_set ;
+using std::pair ;
+
+#define MOD 998244353
+
+long long int my_abs(long long int a , long long int b)
+{
+    return ( a > b)? a - b : b - a ;
+}
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        string s ;
+        cin >> s ;
+        
+        if (s.size() <= 2 || s[0] != '1' || s[1] != '0' || s[2] == '0' || (s.size() == 3 && s[2] == '1')) {
+            cout << "NO" << endl ;
+        }
+        else
+            cout << "YES" << endl ;
+
+    }
+    
+    return 0 ;
+}
