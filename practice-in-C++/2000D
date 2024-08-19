@@ -1,0 +1,74 @@
+想法：為了最大化分數，要盡量從最裡面開始選，再選到外面的LR，而反過來，我們也可以從最外層開始找LR，再逐漸往裡面找
+而使用prefix sum 快速加總區間內的分數，以得到最大的分數
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<unordered_map>
+#include<map>
+#include<set>
+#include<unordered_set>
+#include<algorithm>
+#include<stdexcept>
+#include<cmath>
+#include<utility>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+using std::unordered_map ;
+using std::unordered_set ;
+using std::pair ;
+using std::max ;
+using std::min ;
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        int n ;
+        cin >> n ;
+        
+        vector<int> array(n + 5) ;
+        for(int i = 1 ; i <= n ; i++)
+            cin >> array[i] ;
+        
+        string s ;
+        cin >> s ;
+        
+        vector<long long int> prefix_sum(n + 5) ;
+        prefix_sum[0] = 0 ;
+        for( int i = 1 ; i <= n ; i++ )
+            prefix_sum[i] = prefix_sum[i - 1] + array[i] ;
+        
+        int l = 1 ;
+        int r = n ;
+        
+        long long int sum = 0 ;
+        while ( r > l ) {
+            while ( r > l && s[l - 1] == 'R' )
+                l++ ;
+            while ( r > l && s[r - 1] == 'L' )
+                r-- ;
+            
+            if ( !(r > l) )
+                break ;
+            
+            sum += (prefix_sum[r] - prefix_sum[l - 1]) ;
+            //cout << l << " " << r << " " << sum << endl ;
+            
+            
+            l++ ;
+            r-- ;
+        }
+        
+        cout << sum << endl ;
+    }
+    
+    
+    return 0 ;
+}
