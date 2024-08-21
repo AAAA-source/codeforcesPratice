@@ -1,0 +1,128 @@
+想法：因為是二維陣列，所以只有可能 i 只可能與相差n 的因數位置的元素相鄰，故只要每次把相鄰位置出現過的字母記下來，再找出最小未出現給i位置的元素及可
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<unordered_map>
+#include<map>
+#include<set>
+#include<unordered_set>
+#include<algorithm>
+#include<stdexcept>
+#include<cmath>
+#include<utility>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+using std::unordered_map ;
+using std::unordered_set ;
+using std::pair ;
+using std::max ;
+using std::min ;
+using std::sort ;
+
+
+int main(void)
+{
+    std::ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    
+    
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        int n ;
+        cin >> n ;
+        
+        string result(n , 'a') ;
+        vector<int> factor ;
+        for(int i = 1 ; i <= n ; i++) {
+            if ( n % i == 0 )
+                factor.push_back(i) ;
+        }
+        
+        for(int i = 1 ; i < n ; i++) {
+            vector<bool> appear(26) ;
+            for( auto &j : factor ) {
+                if ( i - j >= 0 )
+                    appear[ result[i - j] - 'a' ] = true ;
+            }
+            int cursor = 0 ;
+            while ( cursor < 26 && appear[cursor] )
+                cursor++ ;
+            
+            result[i] = 'a' + cursor ;
+        }
+        
+        
+        
+        cout << result << endl ;
+    }
+    
+    
+    return 0 ;
+}
+
+// 法二：透過圖論clique的方法，找到最小不是n的因數(j)，該者即為答案
+1.任何比n小的數字都是 n 的因數，(假設為i)根據鴿籠原理，在 n / i 填入 i種元素必然有重複，所以不可能
+2.把字串定義成 s[i] = 'a' + (i % j) 為一種答案，因為小於 j 種元素不可能，故此為正確答案
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<unordered_map>
+#include<map>
+#include<set>
+#include<unordered_set>
+#include<algorithm>
+#include<stdexcept>
+#include<cmath>
+#include<utility>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+using std::unordered_map ;
+using std::unordered_set ;
+using std::pair ;
+using std::max ;
+using std::min ;
+using std::sort ;
+
+
+int main(void)
+{
+    std::ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    
+    
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        int n ;
+        cin >> n ;
+        
+        int cursor = 1 ;
+        while ( n % cursor == 0 )
+            cursor++ ;
+        
+        string result(n , 'a') ;
+        for(int i = 0 ; i < n ; i++)
+            result[i] = 'a' + (i % cursor) ;
+        
+        
+        cout << result << endl ;
+    }
+    
+    
+    return 0 ;
+}
