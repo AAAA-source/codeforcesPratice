@@ -1,0 +1,93 @@
+想法：只要照著做即可，但因為k <= 10^15 ，所以我們要確保每次操作都能把一艘船擊沈，或是用光k；為了簡化攻擊，直接想成一次攻擊前後船隻即可
+注意：因為會先攻擊第一艘船，所以要特別 k == 2 * min_value - 1 的情況
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<unordered_map>
+#include<map>
+#include<set>
+#include<unordered_set>
+#include<algorithm>
+#include<stdexcept>
+#include<cmath>
+#include<utility>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+using std::unordered_map ;
+using std::unordered_set ;
+using std::pair ;
+using std::max ;
+using std::min ;
+using std::sort ;
+
+
+int main(void)
+{
+    std::ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    
+    
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        long long int n , k ;
+        cin >> n >> k ;
+        
+        vector<long long int> array(n) ;
+        for(int i = 0 ; i < n ; i++)
+            cin >> array[i] ;
+        
+        long long int start = 0 ;
+        long long int end = n - 1 ;
+        
+        int sink = 0 ;
+        while (k > 0) {
+            //cout << start << " "<< end << endl ;
+            if ( start > end )
+                break ;
+            
+            if ( start == end ) {
+                // only left 1 ship
+                if ( array[start] <= k )
+                    sink++ ;
+                k = 0 ;
+            }
+            
+            long long int min_value = min( array[start] , array[end] ) ;
+            
+            if ( k >= 2 * min_value ) {
+                k -= 2 * min_value ;
+                sink += ( (array[start] == min_value)? 1 : 0 ) ;
+                sink += ( (array[end] == min_value)? 1 : 0 ) ;
+                
+                array[start] -= min_value ;
+                array[end] -= min_value ;
+                
+                start += ( (array[start] == 0)? 1 : 0 ) ;
+                end -= ( (array[end] == 0)? 1 : 0 ) ;
+                
+            }
+            else if ( k == 2 * min_value - 1 && array[start] == min_value  ) {
+                k = 0 ;
+                sink += 1 ;
+                array[start] -= min_value ;
+                start++ ;
+            }
+            else
+                k = 0 ;
+            
+        }
+        
+        cout << sink << endl ;
+    }
+    
+    
+    return 0 ;
+}
