@@ -1,0 +1,185 @@
+想法：先找出一開始的MEX(a) = x，再想辦法創造一個MEX(a') = x + 1 的 array ，所以要挑選元素改成x + 1
+1. 如果有 x + 2 出現，必須要把所有x + 2 移除（改成x + 1 是一種辦法），否則x + 1 出現後， MEX(a) = x + 3 
+2. 如果 x + 2 沒有出現，那麼只要找出任一個元素可以改成x + 1 即可（不能是 小於 x + 1 且只有單一次出現的元素）
+
+// TLE版本：應該是使用unordered map , unordered set 在找尋的時候效率變糟糕
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<unordered_map>
+#include<map>
+#include<set>
+#include<unordered_set>
+#include<algorithm>
+#include<stdexcept>
+#include<cmath>
+#include<utility>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+using std::unordered_map ;
+using std::unordered_set ;
+using std::pair ;
+using std::max ;
+using std::min ;
+using std::sort ;
+
+
+int main(void)
+{
+    
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        int n ;
+        cin >> n ;
+        
+        vector<int> a(n) ;
+        unordered_map<int , vector<int>> appear ;
+        for(int i = 0 ; i < n ; i++) {
+            cin >> a[i] ;
+            appear[ a[i] ].push_back(i) ;
+        }
+        int target = 0 ;
+        while ( appear.find(target) != appear.end() )
+            target++ ;
+        
+        // if target exist
+        if ( appear.find(target + 1) != appear.end() ) {
+            int start = *appear[target + 1].begin() ;
+            int end = *(appear[target + 1].end() - 1) ;
+            
+            for(int i = start ; i <= end ; i++)
+                a[i] = target ;
+            
+            unordered_set<int> check ;
+            for( auto &i : a )
+                check.insert(i) ;
+            
+            int t = 0 ;
+            while ( check.find(t) != check.end() )
+                t++ ;
+            
+            if ( t == target + 1 )
+                cout << "YES" << endl ;
+            else
+                cout << "NO" << endl ;
+                
+        }
+        else {
+            bool success = false ;
+            for( auto &i : appear ) {
+                if ( i.first > target + 1 || i.second.size() > 1 )
+                    success = true ;
+            }
+            
+            if ( success )
+                cout << "YES" << endl ;
+            else
+                cout << "NO" << endl ;
+
+        }
+        
+        
+        
+    }
+    
+    
+    return 0 ;
+}
+
+// 改用 map , set 的穩定 O(log n) 找尋、插入
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<unordered_map>
+#include<map>
+#include<set>
+#include<unordered_set>
+#include<algorithm>
+#include<stdexcept>
+#include<cmath>
+#include<utility>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+using std::unordered_map ;
+using std::unordered_set ;
+using std::pair ;
+using std::max ;
+using std::min ;
+using std::sort ;
+
+
+int main(void)
+{
+    
+    int t ;
+    cin >> t ;
+    
+    while (t--) {
+        int n ;
+        cin >> n ;
+        
+        vector<int> a(n) ;
+        std::map<int , vector<int>> appear ;
+        for(int i = 0 ; i < n ; i++) {
+            cin >> a[i] ;
+            appear[ a[i] ].push_back(i) ;
+        }
+        int target = 0 ;
+        while ( appear.find(target) != appear.end() )
+            target++ ;
+        
+        // if target exist
+        if ( appear.find(target + 1) != appear.end() ) {
+            int start = *appear[target + 1].begin() ;
+            int end = *(appear[target + 1].end() - 1) ;
+            
+            for(int i = start ; i <= end ; i++)
+                a[i] = target ;
+            
+            std::set<int> check ;
+            for( auto &i : a )
+                check.insert(i) ;
+            
+            int t = 0 ;
+            while ( check.find(t) != check.end() )
+                t++ ;
+            
+            if ( t == target + 1 )
+                cout << "YES" << endl ;
+            else
+                cout << "NO" << endl ;
+                
+        }
+        else {
+            bool success = false ;
+            for( auto &i : appear ) {
+                if ( i.first > target + 1 || i.second.size() > 1 )
+                    success = true ;
+            }
+            
+            if ( success )
+                cout << "YES" << endl ;
+            else
+                cout << "NO" << endl ;
+
+        }
+        
+        
+        
+    }
+    
+    
+    return 0 ;
+}
