@@ -1,0 +1,63 @@
+想法：把所有"AB" , "BA" 的出現位置紀錄下來，再檢查有沒有不重複的
+就算出現很多次，只要有出現四次以上且另一個出現一次以上就會有答案，並跳出迴圈
+故實際執行非常快
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<unordered_map>
+#include<map>
+#include<set>
+#include<unordered_set>
+#include<algorithm>
+#include<stdexcept>
+#include<cmath>
+#include<utility>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+using std::unordered_map ;
+using std::unordered_set ;
+using std::pair ;
+using std::max ;
+using std::min ;
+using std::sort ;
+
+
+int main(void)
+{
+    
+    
+    string s ;
+    cin >> s ;
+    
+    vector<int> AB ;
+    vector<int> BA ;
+    
+    for( int i = 0 ; i < s.length() - 1 ; i++ ) {
+        if ( s[i] == 'A' && s[i + 1] == 'B' )
+            AB.push_back(i) ;
+        else if ( s[i] == 'B' && s[i + 1]  == 'A' )
+            BA.push_back(i) ;
+    }
+    
+    bool success = false ;
+    for( int i = 0 ; !success && i < AB.size() ; i++ ) {
+        for( int j = 0 ;!success && j < BA.size() ; j++ ) {
+            if ( abs( AB[i] - BA[j] ) >= 2 )
+                success = true ;
+        }
+    }
+    
+        
+    if ( success )
+        cout << "YES" << endl ;
+    else
+        cout << "NO" << endl ;
+        
+    return 0 ;
+}
+
