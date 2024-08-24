@@ -1,0 +1,49 @@
+想法：因為可能留下來的數字只有奇數位置的元素，所有偶數元素都會被刪減掉；同時，只要適當操作，任一奇數都可以是最後一個數字
+所以此題只要找出奇數位置最大的數字即可
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<unordered_map>
+#include<map>
+#include<set>
+#include<unordered_set>
+#include<algorithm>
+#include<stdexcept>
+#include<cmath>
+#include<utility>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+using std::unordered_map ;
+using std::unordered_set ;
+using std::pair ;
+using std::max ;
+using std::min ;
+using std::sort ;
+
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    while ( t-- ) {
+        int n ;
+        cin >> n ;
+        vector<int> a(n) ;
+        for(int i = 0 ; i < n ; i++)
+            cin >> a[i] ;
+        
+        int max_element = 0 ;
+        for(int i = 0 ; i < n ; i += 2)
+            max_element = max( max_element , a[i] ) ;
+        
+        cout << max_element << endl ;
+    }
+    
+    
+    return 0 ;
+}
