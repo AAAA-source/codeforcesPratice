@@ -1,0 +1,73 @@
+想法：DFS 一次 tree ，計算每個節點的路徑期望值，傳回父節點後再進行二次計算
+注意：sum / 往下的路徑數，所以非root 的節點要路徑 - 1 
+
+技巧：使用 fixed , setprecision() 函數提高輸出精準度
+（默認環境下，cout 只會輸出7位數，包含整數、小數部分）
+
+
+#include<iostream>
+#include<iomanip>
+#include<vector>
+#include<string>
+#include<unordered_map>
+#include<map>
+#include<set>
+#include<unordered_set>
+#include<algorithm>
+#include<stdexcept>
+#include<cmath>
+#include<utility>
+
+using std::cin ;
+using std::cout ;
+using std::endl ;
+using std::vector ;
+using std::string ;
+using std::unordered_map ;
+using std::unordered_set ;
+using std::pair ;
+using std::max ;
+using std::min ;
+using std::sort ;
+
+
+vector< vector<int> > node(100005) ;
+
+long double DFS( int index , int parent )
+{
+    if ( node[index].empty() || (node[index].size() == 1 && node[index][0] == parent) )
+        return 0 ;
+    
+    long double sum = 0 ;
+    for( auto &i : node[index] ) {
+        if ( i == parent )
+            continue ;
+        
+        sum += 1 + DFS( i , index ) ;
+    }
+    
+    if ( index != 1 )
+        return sum / (node[index].size() - 1) ;
+    else
+        return sum / node[index].size()  ;
+}
+
+int main(void)
+{
+    int n ;
+    cin >> n ;
+    
+    for(int i = 0 ; i < n -  1 ;i++) {
+        int a , b ;
+        cin >> a >> b ;
+        
+        node[a].push_back(b) ;
+        node[b].push_back(a) ;
+    }
+    
+    cout << std::fixed << std::setprecision(7) << DFS( 1 , 0 ) << endl ;
+    
+    
+    
+    return 0 ;
+}
