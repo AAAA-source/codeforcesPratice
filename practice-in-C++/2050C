@@ -1,0 +1,57 @@
+想法：能變動的數字只有2 , 3，而這兩者分別會增加總和2 , 6 
+假設今天有 x 個 2 , y 個 3，我們只需要看 sum + x * 2 + y * 6 是否能被9整除即可
+另外，只需考慮 x <= 9 , y <= 6 的情況
+
+#include<iostream>
+#include<string>
+#include<algorithm>
+
+using namespace std ;
+
+bool divisiable( string number )
+{
+    int count2 = 0 , count3 = 0 ;
+    int sum = 0 ;
+    for(int i = 0 ; i < number.length() ; i++) {
+        sum += number[i] - '0' ;
+        if ( number[i] == '2' )
+            count2++ ;
+        else if ( number[i] == '3' )
+            count3++ ;
+    }
+    sum %= 9 ;
+    if ( sum == 0 )
+        return true ;
+    
+    for(int i = 0 ; i <= min(count3 , 6) ; i++) {
+        int temp = sum + 6 * i ;
+        if ( temp % 9 == 0 )
+            return true ;
+        int gap = 9 - temp % 9 ;
+        int need = (gap % 2 == 1)? 9 + gap : gap ;
+        if ( count2 >= need / 2 )
+            return true ;
+    }
+    
+    
+    return false ;
+}
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    while ( t-- ) {
+        string number ;
+        cin >> number ;
+        
+        if ( divisiable(number) )
+            cout << "YES" << endl ;
+        else
+            cout << "NO" << endl ;
+        
+    }
+    
+    
+    return 0 ;
+}
