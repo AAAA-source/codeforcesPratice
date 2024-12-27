@@ -1,0 +1,42 @@
+想法：greedy approach，找到最接近上限的字母總和
+
+#include<iostream>
+#include<vector>
+#include<string>
+
+using std::vector ;
+using std::string ;
+using std::cin ;
+using std::cout ;
+using std::endl ;
+
+int maxwords( vector<string>& words , int m)
+{
+    int count = 0 ;
+    for(int i = 0 ; i < words.size() ; i++) {
+        m -= words[i].length() ;
+        if ( m >= 0 )
+            count++ ;
+        else
+            break ;
+    }
+    return count ;
+}
+
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    while (t--) {
+        int n , m ;
+        cin >> n >> m ;
+        vector<string> words(n) ;
+        for(int i = 0 ; i < n ; i++) {
+            cin >> words[i] ;
+        }
+        cout << maxwords(words , m) << endl ;
+    }
+    
+    return 0 ;
+}
