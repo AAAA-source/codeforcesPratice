@@ -1,0 +1,51 @@
+想法：因為能被改變的數字只會是後兩個或前兩個，所以只需考慮奇數index的情況以及偶數index的情況即可
+因為只要有適當方法，奇數index、偶數index都可以達到平均，故只需判斷兩者平均是否相等以及是否能整除
+
+#include<iostream>
+#include<vector>
+
+using std::vector ;
+using std::cin , std::cout , std::endl ;
+
+bool beequal( vector<long long int>& nums )
+{
+    long long int evensum = 0 , evencount = 0 ;
+    long long int oddsum = 0 , oddcount = 0 ;
+    
+    for(int i = 0 ; i < nums.size() ; i++) {
+        if ( i % 2 == 0 ) {
+            evensum += nums[i] ;
+            evencount++ ;
+        }
+        else {
+            oddsum += nums[i] ;
+            oddcount++ ;
+        }
+    }
+    
+    return ( (oddsum % oddcount == 0) && (evensum % evencount == 0) && (evensum / evencount == oddsum / oddcount) ) ;
+}
+
+int main(void)
+{
+    int t ;
+    cin >> t ;
+    while (t--) {
+        int n ;
+        cin >> n ;
+        vector<long long int> nums(n) ;
+        for(int i = 0 ; i < n ; i++) {
+            cin >> nums[i] ;
+        }
+        if ( beequal(nums) ) {
+            cout << "YES" << endl ;
+        }
+        else
+            cout << "NO" << endl ;
+        
+    }
+    
+    
+    
+    return 0 ;
+}
