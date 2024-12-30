@@ -1,0 +1,35 @@
+想法：可以把這個過程想像成是要讓後面的digit移到前面來要花費 1，所以每個digit 都去看後十個哪個移過來最大即可，並進行一次rotate
+
+#include<iostream>
+#include<string>
+using namespace std ;
+
+int main(void)
+{
+	int t ; 
+	cin >> t;
+	
+	while (t--) {
+		string s ;
+		cin >> s ;
+		int n = s.length() ;
+		for(int i = 0 ; i < n - 1 ; i++) {
+			int index = i ; 
+			for(int j = i + 1 ; j <= min(i + 10 , n - 1) ; j++) {
+				if ( s[j] - (j - i) > s[index] - (index - i) )
+					index = j ;
+			}
+			if ( index > i ) {
+				char temp = s[index] ;
+				for(int j = index - 1 ; j >= i ; j--) 
+					s[j + 1] = s[j] ;
+				s[i] = temp - (index - i) ;
+			}
+		}
+		
+		
+		cout << s << endl ;
+	}
+	
+	
+}
